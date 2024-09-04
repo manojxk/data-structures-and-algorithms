@@ -25,9 +25,22 @@
 
 package medium.strings;
 
-import java.util.Stack;
+
+import java.util.*;
 
 public class ReverseWords {
+  // Brute Force Solution
+  public static String reverseWordsBruteForce(String s) {
+    // Split the string by spaces, and trim leading/trailing spaces
+    String[] words = s.trim().split("\\s+");
+
+    // Reverse the array of words
+    List<String> wordList = Arrays.asList(words);
+    Collections.reverse(wordList);
+
+    // Join the reversed words with a single space
+    return String.join(" ", wordList);
+  }
 
   // Optimized Solution
   public static String reverseWordsInString(String str) {

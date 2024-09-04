@@ -81,12 +81,29 @@ public class ValidStartingCity {
 
     return startingCityIndex % numberOfCities;
   }
+  public static int canCompleteCircuit(int[] distances, int[] fuel, int mpg) {
+    int totalFuel = 0, currentFuel = 0;
+    int startCity = 0;
+
+    for (int i = 0; i < distances.length; i++) {
+      int fuelGain = fuel[i] * mpg - distances[i];
+      totalFuel += fuelGain;
+      currentFuel += fuelGain;
+
+      if (currentFuel < 0) {
+        startCity = i + 1;
+        currentFuel = 0;
+      }
+    }
+
+    return totalFuel >= 0 ? startCity : -1;
+  }
 
   public static void main(String[] args) {
     int[] distances = {5, 25, 15, 10, 15};
     int[] fuel = {1, 2, 1, 0, 3};
     int mpg = 10;
-    System.out.println(validStartingCityBruteForce(distances, fuel, mpg)); // Output: 4
+    System.out.println(canCompleteCircuit(distances, fuel, mpg)); // Output: 4
   }
 }
 

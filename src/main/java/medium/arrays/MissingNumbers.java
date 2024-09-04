@@ -98,6 +98,44 @@ public class MissingNumbers {
         Math.min(missingNumber1, missingNumber2), Math.max(missingNumber1, missingNumber2));
   }
 
+  /**
+   * This function finds the two missing numbers in the given list.
+   *
+   * @param nums The input list of unique integers.
+   * @return A new list containing the two missing numbers, sorted in ascending order.
+   */
+  public static int[] findMissingNumbersCopilot(int[] nums) {
+    int n = nums.length + 2;
+    // Calculate the sum of the numbers in the original range.
+    int totalSum = n * (n + 1) / 2;
+    // Calculate the sum of the numbers in the input list.
+    int numsSum = Arrays.stream(nums).sum();
+    // The difference between these two sums is the sum of the two missing numbers.
+    int missingSum = totalSum - numsSum;
+
+    // Divide this sum by 2 to find a pivot.
+    int pivot = missingSum / 2;
+
+    // Calculate the sum of the numbers less than or equal to the pivot in the original range.
+    int totalLeftSum = pivot * (pivot + 1) / 2;
+    // Calculate the sum of the numbers less than or equal to the pivot in the input list.
+    int numsLeftSum = Arrays.stream(nums).filter(x -> x <= pivot).sum();
+    // The difference between these two sums is one of the missing numbers.
+    int missingLeft = totalLeftSum - numsLeftSum;
+
+    // The other missing number is the difference between the sum of the two missing numbers and
+    // this number.
+    int missingRight = missingSum - missingLeft;
+
+    // Return a list containing the two missing numbers, sorted in ascending order.
+    return new int[] {missingLeft, missingRight};
+  }
+
+  public static void main(String[] args) {
+    int[] nums = {1, 4, 3};
+    System.out.println(Arrays.toString(findMissingNumbersCopilot(nums))); // Output: [2, 5]
+  }
+
   // O(n) time | O(n) space - where n is the length of the input array
   public int[] missingNumbers(int[] nums) {
     HashSet<Integer> includedNums = new HashSet<Integer>();
@@ -117,10 +155,5 @@ public class MissingNumbers {
     }
 
     return solution;
-  }
-
-  public static void main(String[] args) {
-    int[] nums = {1, 4, 3};
-    System.out.println(findMissingNumbersBruteForce(nums)); // Output: [2, 5]
   }
 }

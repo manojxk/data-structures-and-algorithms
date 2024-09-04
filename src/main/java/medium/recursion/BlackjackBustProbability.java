@@ -1,24 +1,26 @@
-package medium.recursion; /*
-                 * Problem Statement:
-                 * In the game of Blackjack, the dealer must draw cards until the sum of the values of their cards
-                 * is greater than or equal to a target value minus 4. For example, with a target of 21,
-                 * the dealer must continue drawing cards until their total is at least 17, at which point they stop ("stand").
-                 * If the dealer's total exceeds the target, they "bust" and lose.
-                 *
-                 * Your task is to write a function that calculates the probability that the dealer will bust
-                 * given a target value and a starting hand value.
-                 *
-                 * The function should return this probability rounded to three decimal places.
-                 *
-                 * Assumptions:
-                 * - The deck is infinite, and each card has a value between 1 and 10, with an equal probability of being drawn.
-                 * - The target value is always a positive integer.
-                 * - The starting hand value is a positive integer less than or equal to the target value.
-                 *
-                 * Example:
-                 * Input: target = 21, startingHand = 15
-                 * Output: 0.45
-                 */
+package medium.recursion;
+
+/*
+ * Problem Statement:
+ * In the game of Blackjack, the dealer must draw cards until the sum of the values of their cards
+ * is greater than or equal to a target value minus 4. For example, with a target of 21,
+ * the dealer must continue drawing cards until their total is at least 17, at which point they stop ("stand").
+ * If the dealer's total exceeds the target, they "bust" and lose.
+ *
+ * Your task is to write a function that calculates the probability that the dealer will bust
+ * given a target value and a starting hand value.
+ *
+ * The function should return this probability rounded to three decimal places.
+ *
+ * Assumptions:
+ * - The deck is infinite, and each card has a value between 1 and 10, with an equal probability of being drawn.
+ * - The target value is always a positive integer.
+ * - The starting hand value is a positive integer less than or equal to the target value.
+ *
+ * Example:
+ * Input: target = 21, startingHand = 15
+ * Output: 0.45
+ */
 
 /*
 Optimized Solution: Dynamic Programming
@@ -32,6 +34,43 @@ O(target - startingHand): We need space to store the calculated probabilities fo
 
 import java.util.*;
 
+public class BlackjackBustProbability {
+
+  public static double calculateBustProbability(int target, int startingHand) {
+    return calculateBustProbabilityHelper(target, startingHand);
+  }
+
+  private static double calculateBustProbabilityHelper(int target, int currentHand) {
+    // Base cases
+    if (currentHand >= target) {
+      return 1.0; // Bust
+    } else if (currentHand >= target - 4) {
+      return 0.0; // Stand
+    }
+
+    // Recursive case
+    double bustProbability = 0.0;
+
+    // Average the bust probability over all possible card draws (1 through 10)
+    for (int card = 1; card <= 10; card++) {
+      bustProbability += calculateBustProbabilityHelper(target, currentHand + card) / 10.0;
+    }
+
+    return bustProbability;
+  }
+
+  public static void main(String[] args) {
+    int target = 21;
+    int startingHand = 15;
+    double bustProbability = calculateBustProbability(target, startingHand);
+
+    System.out.printf(
+        "Probability of busting with target %d and starting hand %d: %.3f%n",
+        target, startingHand, bustProbability);
+  }
+}
+
+/*
 public class BlackjackBustProbability {
   // O(t - s) time | O(t - s) space - where t is the target, and s is the starting hand
   public float blackjackProbability(int target, int startingHand) {
@@ -75,7 +114,7 @@ public class BlackjackBustProbability {
     System.out.println(p.blackjackProbability(target, startingHand)); // Example Output: 0.45
   }
 }
-/*Explanation
+Explanation
 Function blackjackProbability(int target, int startingHand):
 
 Purpose: Initializes the memoization structure (a HashMap) and calls the recursive method to compute the probability of busting. It also rounds the result to three decimal places.

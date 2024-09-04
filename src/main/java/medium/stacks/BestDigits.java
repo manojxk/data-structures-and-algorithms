@@ -63,6 +63,47 @@ public class BestDigits {
     return bestDigitString.toString();
   }
 
+
+  public static String removeDigits(String number, int numDigits) {
+    int length = number.length();
+
+
+    // If numDigits is equal to or larger than the length of the number, return "0"
+    if (numDigits >= length) return "0";
+
+    Stack<Character> stack = new Stack<>();
+
+    for (int i = 0; i < length; i++) {
+      // While the stack is not empty, the top of the stack is less than the current digit,
+      // and we can still remove digits, pop the top of the stack
+      while (!stack.isEmpty() && stack.peek() < number.charAt(i) && numDigits > 0) {
+        stack.pop();
+        numDigits--;
+      }
+      stack.push(number.charAt(i));
+    }
+
+    // If there are still digits to remove, remove them from the top of the stack
+    while (numDigits > 0) {
+      stack.pop();
+      numDigits--;
+    }
+
+    // Build the largest number
+    StringBuilder largestNumber = new StringBuilder();
+    while (!stack.isEmpty()) {
+      largestNumber.insert(0, stack.pop());
+    }
+
+    // Remove leading zeros
+    while (largestNumber.length() > 1 && largestNumber.charAt(0) == '0') {
+      largestNumber.deleteCharAt(0);
+    }
+
+    return largestNumber.toString();
+  }
+
+
   public static void main(String[] args) {
     String number = "462839";
     int numDigits = 2;

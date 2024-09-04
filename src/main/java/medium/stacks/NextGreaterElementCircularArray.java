@@ -29,55 +29,60 @@ O(n^2): For each element, we may need to traverse the entire array.
 Space Complexity:
 O(n): Space is needed to store the output array.*/
 package medium.stacks;
+
 import java.util.*;
 
 public class NextGreaterElementCircularArray {
 
   // Brute Force Solution
-  public static int[] nextGreaterElements(int[] array) {
+  /*  The brute force approach involves iterating over each element in the array and checking all subsequent elements to find the next greater element. Since the array is circular, if we reach the end of the array, we continue checking from the start of the array.
+
+  Time Complexity:
+  O(n^2): For each element, we might need to look at every other element, leading to a quadratic time complexity.
+  Space Complexity:
+  O(n): We need an array of the same size as the input to store the results.*/
+  public static int[] nextGreaterElementBruteForce(int[] array) {
     int n = array.length;
     int[] result = new int[n];
 
     for (int i = 0; i < n; i++) {
-      result[i] = -1; // Default to -1
+      result[i] = -1; // Default value if no greater element is found
       for (int j = 1; j < n; j++) {
-        if (array[(i + j) % n] > array[i]) {
-          result[i] = array[(i + j) % n];
+        int nextIndex = (i + j) % n;
+        if (array[nextIndex] > array[i]) {
+          result[i] = array[nextIndex];
           break;
         }
       }
     }
+    return result;
+  }
+
+
+
+  public static int[] nextGreaterElementStack(int[] array) {
+    int n = array.length;
+    int[] result = new int[n];
+    Stack<Integer> stack = new Stack<>();
+
+    // Initialize the result array with -1
+    Arrays.fill(result, -1);
+
+    // Traverse the array twice to handle the circular nature
+    for (int i = 0; i < 2 * n; i++) {
+      int currentIndex = i % n;
+      while (!stack.isEmpty() && array[stack.peek()] < array[currentIndex]) {
+        result[stack.pop()] = array[currentIndex];
+      }
+      stack.push(currentIndex);
+    }
 
     return result;
   }
-    // Optimized Solution
-    public static int[] nextGreaterElementss(int[] array) {
-        int n = array.length;
-        int[] result = new int[n];
-        Stack<Integer> stack = new Stack<>();
-
-        // Initialize the result array with -1 (for cases where no greater element exists)
-        for (int i = 0; i < n; i++) {
-            result[i] = -1;
-        }
-
-        // Iterate twice over the array to simulate circularity
-        for (int i = 0; i < 2 * n; i++) {
-            int index = i % n;
-            while (!stack.isEmpty() && array[stack.peek()] < array[index]) {
-                result[stack.pop()] = array[index];
-            }
-            if (i < n) {
-                stack.push(index);
-            }
-        }
-
-        return result;
-    }
 
   public static void main(String[] args) {
     int[] array = {2, 5, -3, -4, 6, 7, 2};
-    int[] result = nextGreaterElements(array);
+    int[] result = nextGreaterElementStack(array);
     System.out.println(java.util.Arrays.toString(result)); // Output: [5, 6, 6, 6, 7, -1, 5]
   }
 }
@@ -108,7 +113,6 @@ class Program {
         return result;
     }
 }*/
-
 
 /*
 Optimized Solution: Using Stack

@@ -49,34 +49,39 @@ import java.util.Stack;
 
 public class AsteroidCollision {
   // Optimized Solution using Stack
-  public static int[] asteroidCollision(int[] asteroids) {
+  public static int[] asteroidCollisionStack(int[] asteroids) {
     Stack<Integer> stack = new Stack<>();
 
     for (int asteroid : asteroids) {
       boolean destroyed = false;
-
-      while (!stack.isEmpty() && asteroid < 0 && stack.peek() > 0) {
-        if (stack.peek() < -asteroid) {
+      while (!stack.isEmpty() && stack.peek() > 0 && asteroid < 0) {
+        int top = stack.peek();
+        if (Math.abs(top) < Math.abs(asteroid)) {
           stack.pop();
-          continue;
-        } else if (stack.peek() == -asteroid) {
+        } else if (Math.abs(top) == Math.abs(asteroid)) {
           stack.pop();
+          destroyed = true;
+          break;
+        } else {
+          destroyed = true;
+          break;
         }
-        destroyed = true;
-        break;
       }
-
       if (!destroyed) {
         stack.push(asteroid);
       }
     }
 
-    return stack.stream().mapToInt(i -> i).toArray();
+    int[] result = new int[stack.size()];
+    for (int i = result.length - 1; i >= 0; i--) {
+      result[i] = stack.pop();
+    }
+    return result;
   }
 
   public static void main(String[] args) {
     int[] asteroids = {-3, 5, -8, 6, 7, -4, -7};
-    int[] result = asteroidCollision(asteroids);
+    int[] result = asteroidCollisionStack(asteroids);
     for (int val : result) {
       System.out.print(val + " "); // Output: -3 -8 6
     }

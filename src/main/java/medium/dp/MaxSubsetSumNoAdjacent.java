@@ -43,6 +43,29 @@ public class MaxSubsetSumNoAdjacent {
     return Math.max(include, exclude);
   }
 
+  static int findMaxSubsetSumCopilot(int arr[]) {
+    int n = arr.length;
+    if (n == 1) return arr[0]; // If there's only one element, return it
+    if (n == 2) return Math.max(arr[0], arr[1]); // If there are two elements, return the maximum
+
+    // dp[i] will be max sum till index i such that we do not include any two elements that are
+    // adjacent
+    int dp[] = new int[n];
+
+    dp[0] = arr[0]; // For first element, max sum will be the element itself
+    dp[1] =
+        Math.max(
+            arr[0],
+            arr[1]); // For second element, max sum will be the maximum of first and second elements
+
+    // Fill remaining positions
+    for (int i = 2; i < n; i++) {
+      dp[i] = Math.max(arr[i] + dp[i - 2], dp[i - 1]);
+    }
+
+    return dp[n - 1]; // The last element of dp will be our answer
+  }
+
   // Optimized Solution: Dynamic Programming Approach
   public static int maxSubsetSumNoAdjacentDP(int[] array) {
     if (array.length == 0) return 0;

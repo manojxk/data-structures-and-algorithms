@@ -21,11 +21,11 @@ Move both nodes up simultaneously until they meet. The meeting point is the youn
 
 package medium.graphs;
 
-class AncestralTree {
-  public AncestralTree ancestor;
-}
-
 public class YoungestCommonAncestor {
+
+  static class AncestralTree {
+    public AncestralTree ancestor;
+  }
 
   /**
    * Finds the youngest common ancestor of two descendants.
@@ -117,7 +117,6 @@ public class YoungestCommonAncestor {
   }
 }
 
-
 /*
 Time and Space Complexity
 Time Complexity:O(d)
@@ -125,3 +124,58 @@ Where d is the depth of the deeper node (in the worst case, both nodes could be 
 Space Complexity:O(1)
 
 The space usage is constant as only a few extra variables are used.*/
+
+/*
+// Definition for a binary tree node
+class TreeNode {
+  int val;
+  TreeNode left;
+  TreeNode right;
+
+  // Constructor to initialize the node
+  TreeNode(int x) {
+    val = x;
+    left = null;
+    right = null;
+  }
+}
+
+class Solution {
+  public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    // Base case: if the current node is null, or if it matches either p or q
+    if (root == null || root.val == p.val || root.val == q.val) {
+      return root;
+    }
+
+    // Recursively find the LCA in the left and right subtrees
+    TreeNode leftLca = lowestCommonAncestor(root.left, p, q);
+    TreeNode rightLca = lowestCommonAncestor(root.right, p, q);
+
+    // If both leftLca and rightLca are not null, it means p and q are found in
+    // different subtrees, hence the current node is their LCA
+    if (leftLca != null && rightLca != null) {
+      return root;
+    }
+
+    // If only one of the subtrees contains p or q, return that subtree's LCA
+    return (leftLca != null) ? leftLca : rightLca;
+  }
+  public static void main(String[] args) {
+        // Construct a binary tree
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(5);
+        root.right = new TreeNode(1);
+        root.left.left = new TreeNode(6);
+        root.left.right = new TreeNode(2);
+        root.right.left = new TreeNode(0);
+        root.right.right = new TreeNode(8);
+        root.left.right.left = new TreeNode(7);
+        root.left.right.right = new TreeNode(4);
+
+        // Find the LCA of nodes with values 5 and 1
+        Solution solution = new Solution();
+        TreeNode lca = solution.lowestCommonAncestor(root, root.left, root.right);
+
+        System.out.println("LCA of 5 and 1 is: " + lca.val); // Output should be 3
+    }
+}*/

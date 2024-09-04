@@ -28,7 +28,7 @@
  * ]
  */
 
-package medium.tries;
+package medium.strings;
 
 import java.util.*;
 

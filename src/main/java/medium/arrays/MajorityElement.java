@@ -48,22 +48,26 @@ public class MajorityElement {
 
   // O(n) time | O(1) space - where n is the number of elements in the array
 
-  public int majorityElement(int[] array) {
+  /**
+   * This function finds the majority element in an array.
+   *
+   * @param nums The input array.
+   * @return The majority element.
+   */
+  public static int majorityElement(int[] nums) {
     int count = 0;
-    int answer = array[0];
+    Integer candidate = null;
 
-    for (int value : array) {
+    for (int num : nums) {
+      // If the count is 0, set the current number as the candidate.
       if (count == 0) {
-        answer = value;
+        candidate = num;
       }
-
-      if (value == answer) {
-        count++;
-      } else {
-        count--;
-      }
+      // If the current number is the candidate, increment the count, otherwise decrement it.
+      count += (num == candidate) ? 1 : -1;
     }
-    return answer;
+
+    return candidate;
   }
 
   public static void main(String[] args) {

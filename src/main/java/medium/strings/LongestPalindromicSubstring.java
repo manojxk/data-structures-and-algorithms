@@ -63,34 +63,36 @@ public class LongestPalindromicSubstring {
     return true;
   }
 
-  // Optimized Solution using Expand Around Center
-  public static String longestPalindromicSubstring2(String str) {
-    String longestPalindrome = "";
-
-    for (int i = 0; i < str.length(); i++) {
-      // Check for odd-length palindromes
-      String oddPalindrome = expandAroundCenter(str, i, i);
-      if (oddPalindrome.length() > longestPalindrome.length()) {
-        longestPalindrome = oddPalindrome;
-      }
-
-      // Check for even-length palindromes
-      String evenPalindrome = expandAroundCenter(str, i, i + 1);
-      if (evenPalindrome.length() > longestPalindrome.length()) {
-        longestPalindrome = evenPalindrome;
+  // Function to find the longest palindromic substring
+  public static String longestPalindrome(String s) {
+    if (s == null || s.isEmpty())
+      return ""; // If the string is null or empty, return an empty string
+    int start = 0, end = 0; // Initialize start and end of the longest palindromic substring
+    for (int i = 0; i < s.length(); i++) {
+      int len1 = expandAroundCenter(s, i, i); // Length of the palindrome with the center at i
+      int len2 =
+              expandAroundCenter(
+                      s, i, i + 1); // Length of the palindrome with the center between i and i + 1
+      int len = Math.max(len1, len2); // The length of the longer palindrome
+      if (len
+              > end - start) { // If the longer palindrome is longer than the current longest palindrome
+        start = i - (len - 1) / 2; // Update the start of the longest palindrome
+        end = i + len / 2; // Update the end of the longest palindrome
       }
     }
-
-    return longestPalindrome;
+    return s.substring(start, end + 1); // Return the longest palindromic substring
   }
 
-  // Helper function to expand around the center and find the palindrome
-  private static String expandAroundCenter(String str, int left, int right) {
-    while (left >= 0 && right < str.length() && str.charAt(left) == str.charAt(right)) {
-      left--;
-      right++;
+  // Helper function to expand around the center and return the length of the palindrome
+  private static int expandAroundCenter(String s, int left, int right) {
+    while (left >= 0
+            && right < s.length()
+            && s.charAt(left)
+            == s.charAt(right)) { // While the characters at the left and right are equal
+      left--; // Move the left pointer to the left
+      right++; // Move the right pointer to the right
     }
-    return str.substring(left + 1, right);
+    return right - left - 1; // Return the length of the palindrome
   }
 
   public static void main(String[] args) {
@@ -110,3 +112,5 @@ Expanding around each center takes O(n) time, and since there are O(n) possible 
 Space Complexity:
 O(1):
 Only constant extra space is used for tracking the longest palindrome. If considering the output substring, the space complexity would be O(n).*/
+
+
