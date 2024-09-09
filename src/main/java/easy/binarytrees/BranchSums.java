@@ -82,7 +82,4 @@ public class BranchSums {
 }
 
 
-/*Time Complexity:
-O(n): We visit each node in the tree exactly once, where n is the number of nodes.
-Space Complexity:
-O(n): The space used by the list to store the branch sums and by the recursive call stack.*/
+
