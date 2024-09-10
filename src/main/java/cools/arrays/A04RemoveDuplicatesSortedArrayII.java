@@ -20,12 +20,6 @@ package cools.arrays;
  Input: nums = [0,0,1,1,1,1,2,3,3]
  Output: 7, nums = [0,0,1,1,2,3,3,_,_]
  Explanation: Your function should return k = 7, with the first seven elements of nums being 0, 0, 1, 1, 2, 3, and 3.
-
- Solution Approach:
- 1. Use the **two-pointer technique**.
- 2. One pointer (`i`) traverses the array, and another pointer (`k`) keeps track of the next position to place a valid element.
- 3. For each element, if it appears less than or equal to 2 times, place it at the position `k`.
- 4. After the loop, the first `k` elements of `nums` will contain the valid elements, and `k` will be the number of valid elements.
 */
 
 import java.util.Arrays;
@@ -33,26 +27,6 @@ import java.util.Arrays;
 public class A04RemoveDuplicatesSortedArrayII {
 
   // Function to remove duplicates where each element appears at most twice
-  public int removeDuplicates(int[] nums) {
-    if (nums.length <= 2) {
-      return nums.length; // If there are 2 or fewer elements, no need to process further
-    }
-
-    int k = 2; // Pointer for the next position of valid elements, start from index 2
-
-    // Traverse the array starting from the third element
-    for (int i = 2; i < nums.length; i++) {
-      // If the current element is different from the element at position k-2, place it at position
-      // k
-      if (nums[i] != nums[k - 2]) {
-        nums[k] = nums[i];
-        k++; // Increment k for the next valid element
-      }
-    }
-
-    // Return the number of elements that can appear at most twice
-    return k;
-  }
 
   // Main function to run and test the solution
   public static void main(String[] args) {
@@ -75,6 +49,25 @@ public class A04RemoveDuplicatesSortedArrayII {
             + k2
             + ", Modified Array: "
             + Arrays.toString(nums2)); // Output: 7, [0, 0, 1, 1, 2, 3, 3, _, _]
+  }
+
+  public int removeDuplicates(int[] nums) {
+    int j = 1, count = 1;
+
+    for (int i = 1; i < nums.length; i++) {
+      if (nums[i] == nums[i - 1]) {
+        count++;
+      } else {
+        count = 1;
+      }
+
+      if (count <= 2) {
+        nums[j] = nums[i];
+        j++;
+      }
+    }
+
+    return j;
   }
 
   /*

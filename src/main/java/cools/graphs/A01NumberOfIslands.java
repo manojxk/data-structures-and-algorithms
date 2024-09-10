@@ -48,49 +48,6 @@ package cools.graphs;
 
 public class A01NumberOfIslands {
 
-  // Directions array to simplify moving up, down, left, and right
-  private static final int[][] DIRECTIONS = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-
-  // Function to calculate the number of islands
-  public int numIslands(char[][] grid) {
-    if (grid == null || grid.length == 0) return 0;
-
-    int numIslands = 0;
-    int rows = grid.length;
-    int cols = grid[0].length;
-
-    // Iterate over each cell in the grid
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        // If the current cell is '1' (land), we found a new island
-        if (grid[i][j] == '1') {
-          numIslands++; // Increment the island count
-          dfs(grid, i, j); // Mark all connected lands as visited
-        }
-      }
-    }
-    return numIslands; // Return the total count of islands
-  }
-
-  // Depth-first search (DFS) to mark all connected lands ('1's) as visited
-  private void dfs(char[][] grid, int row, int col) {
-    int rows = grid.length;
-    int cols = grid[0].length;
-
-    // Base case: If out of bounds or not land, return
-    if (row < 0 || row >= rows || col < 0 || col >= cols || grid[row][col] == '0') {
-      return;
-    }
-
-    // Mark the current cell as visited by setting it to '0' (water)
-    grid[row][col] = '0';
-
-    // Visit all adjacent cells (up, down, left, right)
-    for (int[] direction : DIRECTIONS) {
-      dfs(grid, row + direction[0], col + direction[1]);
-    }
-  }
-
   // Main function to run and test the solution
   public static void main(String[] args) {
     A01NumberOfIslands solution = new A01NumberOfIslands();
@@ -112,6 +69,47 @@ public class A01NumberOfIslands {
       {'0', '0', '0', '1', '1'}
     };
     System.out.println("Number of Islands: " + solution.numIslands(grid2)); // Output: 3
+  }
+
+  // Function to calculate the number of islands
+
+  public int numIslands(char[][] grid) {
+    // If the grid is empty, return 0.
+    if (grid == null || grid.length == 0) {
+      return 0;
+    }
+
+    int numIslands = 0;
+
+    // Iterate over each cell in the grid.
+    for (int i = 0; i < grid.length; i++) {
+      for (int j = 0; j < grid[i].length; j++) {
+        // If the current cell is land ('1').
+        if (grid[i][j] == '1') {
+          // Increment the number of islands and sink the connected land.
+          numIslands++;
+          dfs(grid, i, j);
+        }
+      }
+    }
+
+    return numIslands;
+  }
+
+  private void dfs(char[][] grid, int i, int j) {
+    // If the current cell is out of the grid bounds or is water ('0'), return.
+    if (i < 0 || i >= grid.length || j < 0 || j >= grid[i].length || grid[i][j] == '0') {
+      return;
+    }
+
+    // Sink the current cell.
+    grid[i][j] = '0';
+
+    // Sink the connected land.
+    dfs(grid, i - 1, j);
+    dfs(grid, i + 1, j);
+    dfs(grid, i, j - 1);
+    dfs(grid, i, j + 1);
   }
 
   /*

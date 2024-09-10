@@ -34,30 +34,6 @@ package cools.arrays;
 
 public class A07BestTimeToBuyAndSellStock {
 
-  // Function to calculate the maximum profit
-  public int maxProfit(int[] prices) {
-    if (prices == null || prices.length == 0) return 0;
-
-    int minPrice = Integer.MAX_VALUE; // Variable to track the minimum price encountered so far
-    int maxProfit = 0; // Variable to track the maximum profit
-
-    // Traverse through all prices
-    for (int price : prices) {
-      // Update the minimum price if the current price is lower
-      if (price < minPrice) {
-        minPrice = price;
-      }
-
-      // Calculate potential profit for the current price and update maxProfit if it's higher
-      int potentialProfit = price - minPrice;
-      if (potentialProfit > maxProfit) {
-        maxProfit = potentialProfit;
-      }
-    }
-
-    return maxProfit; // Return the maximum profit achieved
-  }
-
   // Main function to run and test the solution
   public static void main(String[] args) {
     A07BestTimeToBuyAndSellStock solution = new A07BestTimeToBuyAndSellStock();
@@ -69,6 +45,26 @@ public class A07BestTimeToBuyAndSellStock {
     // Example 2
     int[] prices2 = {7, 6, 4, 3, 1};
     System.out.println("Maximum Profit: " + solution.maxProfit(prices2)); // Output: 0
+  }
+
+  // Function to calculate the maximum profit
+  public int maxProfit(int[] prices) {
+    if (prices == null || prices.length == 0) return 0;
+
+    int minPrice = Integer.MAX_VALUE; // Variable to track the minimum price encountered so far
+    int maxProfit = 0; // Variable to track the maximum profit
+
+    // Traverse through all prices
+    for (int price : prices) {
+      // Update the minimum price if the current price is lower
+
+      minPrice = Math.min(price, minPrice);
+
+      // Calculate potential profit for the current price and update maxProfit if it's higher
+      maxProfit = Math.max(maxProfit, price - minPrice);
+    }
+
+    return maxProfit; // Return the maximum profit achieved
   }
 
   /*
