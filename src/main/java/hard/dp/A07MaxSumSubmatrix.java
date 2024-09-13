@@ -1,34 +1,36 @@
 package hard.dp;
 
-/**
- * Problem Statement:
- *
- * <p>You are given a two-dimensional array (matrix) of potentially unequal height and width, filled
- * with integers. You are also given a positive integer `size`. The task is to find the maximum sum
- * of elements in any submatrix of dimensions `size x size`.
- *
- * <p>For example, if the matrix is: [ [2, 4], [5, 6], [-3, 2], ]
- *
- * <p>And `size = 2`, the submatrices to consider are:
- *
- * <p>[2, 4] [5, 6]
- *
- * <p>and
- *
- * <p>[5, 6] [-3, 2]
- *
- * <p>The maximum sum of these submatrices is 17.
- *
- * <p>The function should return the maximum sum of a `size x size` submatrix.
- *
- * <p>Sample Input: matrix = [ [5, 3, -1, 5], [-7, 3, 7, 4], [12, 8, 0, 0], [1, -8, -8, 2], ] size =
- * 2
- *
- * <p>Sample Output: 18
- */
-import java.util.*;
+/*
+ Problem: Maximum Sum Submatrix
 
-public class MaxSumSubmatrix {
+ You are given a 2D matrix of integers and a positive integer size.
+ Write a function that returns the maximum sum of any submatrix within the input matrix with dimensions size x size.
+
+ Example 1:
+ Input:
+    matrix = [
+      [5, 3, -1, 5],
+      [-7, 3, 7, 8],
+      [12, 8, 0, 10],
+      [1, -8, -8, 2]
+    ]
+    size = 2
+ Output:
+    18
+ Explanation:
+    The submatrix with the maximum sum is:
+    [
+      [3, 7],
+      [8, 0]
+    ]
+    The sum is 18.
+
+ Constraints:
+ - The input matrix can have up to 1000 elements.
+ - The submatrix size is a positive integer smaller than both the number of rows and columns of the input matrix.
+*/
+
+public class A07MaxSumSubmatrix {
 
   // Brute Force Approach:
   // Time Complexity: O(n * m * size^2), where n is the number of rows, m is the number of columns,
@@ -123,7 +125,9 @@ Brute Force Approach:
 
 Time Complexity: O(n * m * size²), where n is the number of rows, m is the number of columns, and size is the submatrix size. For every possible submatrix starting point, we compute the sum of its elements, which requires iterating over a size x size submatrix.
 Space Complexity: O(1), since we are not using any extra space except for variables to store the maximum sum.
+
 Optimized Approach (Prefix Sum):
 
 Time Complexity: O(n * m), where n is the number of rows and m is the number of columns. We use prefix sums to compute the sum of any submatrix in constant time.
-Space Complexity: O(n * m), for storing the cumulative sums of the matrix.*/
+Space Complexity: O(n * m), for storing the cumulative sums of the matrix.
+*/

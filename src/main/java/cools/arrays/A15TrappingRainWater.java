@@ -14,7 +14,7 @@ package cools.arrays;
 public class A15TrappingRainWater {
 
   // Function to calculate the trapped water
-  public int trap(int[] heights) {
+  public static int trap(int[] heights) {
     if (heights == null || heights.length == 0) {
       return 0; // No pillars, no trapped water
     }

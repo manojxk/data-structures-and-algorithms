@@ -40,7 +40,7 @@ package cools.binarytrees;
 public class A11BinaryTreeMaximumPathSum {
 
   // TreeNode class definition
-  static class TreeNode {
+  public static class TreeNode {
     int val;
     TreeNode left;
     TreeNode right;
