@@ -16,7 +16,7 @@ package hard.arrays;
 
 import java.util.Arrays;
 
-public class SubarraySort {
+public class A02SubarraySort {
   public static int[] subarraySort(int[] array) {
     int[] arrayCopy = array.clone(); // Make a copy of the original array
     Arrays.sort(arrayCopy); // Sort the copied array
