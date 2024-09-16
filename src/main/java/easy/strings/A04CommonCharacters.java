@@ -16,23 +16,12 @@
  * Sample Output:
  * ["b", "c"] // The characters could be ordered differently.
  */
-/*Brute Force Solution
-Approach:
-The brute force solution involves the following steps:
-
-Convert the first string into a set of characters.
-For each subsequent string, retain only the characters that are common with the set.
-After processing all strings, the set will contain only the characters that are common to all strings.
-Time Complexity:
-O(n * m): Where n is the number of strings and m is the average length of the strings. This is because we iterate over each character in each string.
-Space Complexity:
-O(k): Where k is the number of unique characters in the first string.*/
 
 package easy.strings;
 
 import java.util.*;
 
-public class CommonCharacters {
+public class A04CommonCharacters {
 
   // Function to find common characters in all strings
   public static List<Character> commonChars(List<String> strings) {
@@ -41,7 +30,7 @@ public class CommonCharacters {
     // Start with a set of characters from the first string
     Set<Character> commonSet = new HashSet<>();
     for (char c : strings.get(0).toCharArray()) {
-      commonSet.add(c);
+      commonSet.add(c); // Initialize with characters of the first string
     }
 
     // Iterate through each subsequent string
@@ -52,10 +41,10 @@ public class CommonCharacters {
           currentSet.add(c); // Retain only characters that are common
         }
       }
-      commonSet = currentSet; // Update the common set
+      commonSet = currentSet; // Update the common set with the intersection
     }
 
-    return new ArrayList<>(commonSet);
+    return new ArrayList<>(commonSet); // Convert the set to a list
   }
 
   public static void main(String[] args) {
@@ -69,3 +58,23 @@ public class CommonCharacters {
     System.out.println(result); // Expected Output: [b, c]
   }
 }
+
+/*
+ * Approach:
+ * - The brute force approach involves using sets to find the common characters across all strings.
+ * - We initialize a set with the characters from the first string.
+ * - For each subsequent string, we retain only those characters that are present in the common set.
+ * - This effectively gives us the intersection of characters present in all strings.
+ *
+ * Steps:
+ * 1. Initialize a set of characters with the first string.
+ * 2. For each subsequent string, retain only the characters that are present in the common set.
+ * 3. After processing all strings, the set will contain only the characters common to all strings.
+ * 4. Return the result as a list.
+ *
+ * Time Complexity:
+ * - O(n * m): Where `n` is the number of strings and `m` is the average length of the strings. We iterate over each character in each string and check for its presence in the common set.
+ *
+ * Space Complexity:
+ * - O(k): Where `k` is the number of unique characters in the first string. We store the common characters in a set.
+ */
