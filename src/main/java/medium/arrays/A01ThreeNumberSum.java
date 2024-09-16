@@ -46,7 +46,7 @@ package medium.arrays;
 
 import java.util.*;
 
-public class ThreeNumberSum {
+public class A01ThreeNumberSum {
   public static List<List<Integer>> threeNumberSumBruteForce(int[] array, int targetSum) {
     List<List<Integer>> triplets = new ArrayList<>();
     Set<List<Integer>> seen = new HashSet<>(); // To avoid duplicate triplets
@@ -56,6 +56,7 @@ public class ThreeNumberSum {
       for (int j = i + 1; j < array.length - 1; j++) {
         for (int k = j + 1; k < array.length; k++) {
           if (array[i] + array[j] + array[k] == targetSum) {
+
             List<Integer> triplet = Arrays.asList(array[i], array[j], array[k]);
             Collections.sort(triplet); // Sort to handle the triplet order
             if (!seen.contains(triplet)) {

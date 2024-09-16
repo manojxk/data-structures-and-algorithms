@@ -39,7 +39,7 @@ package medium.arrays;
 
 import java.util.*;
 
-public class MissingNumbers {
+public class A12MissingNumbers {
 
   // Brute Force Solution
   public static List<Integer> findMissingNumbersBruteForce(int[] nums) {
