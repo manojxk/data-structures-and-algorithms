@@ -28,11 +28,26 @@
  * ]
  */
 
+/*
+ Solution Steps:
+
+ 1. Loop through all combinations of placing three dots in the string, splitting it into four segments.
+ 2. For each combination, check if each segment represents a valid integer (between 0 and 255) and ensure there are no leading zeros.
+ 3. If all segments are valid, construct the IP address and add it to the result list.
+ 4. Return the list of valid IP addresses.
+
+ Time Complexity: O(1)
+ - The number of possible IP addresses from a string of length 12 is fixed at a maximum of 81 iterations due to the constraints on segment length and the size of an IP address.
+
+ Space Complexity: O(1)
+ - The space used is constant aside from the result list, as we are only storing a fixed number of possible combinations.
+*/
+
 package medium.strings;
 
 import java.util.*;
 
-public class RestoreIPAddresses {
+public class A03RestoreIPAddresses {
 
   public static List<String> restoreIpAddresses(String s) {
     List<String> result = new ArrayList<>();
@@ -55,9 +70,7 @@ public class RestoreIPAddresses {
               if (A <= 255 && B <= 255 && C <= 255 && D <= 255) {
                 // Create the IP address and check its length (to avoid leading zeros)
                 ans = A + "." + B + "." + C + "." + D;
-                if (ans.length() == s.length() + 3) {
-                  result.add(ans);
-                }
+                result.add(ans);
               }
             }
           }
@@ -69,7 +82,7 @@ public class RestoreIPAddresses {
 
   public static void main(String[] args) {
 
-    String input = "109216800";
+    String input = "1921680";
     List<String> output = restoreIpAddresses(input);
     System.out.println(output);
     // Expected Output: [1.9.216.80, 1.92.16.80, 1.92.168.0, 19.2.16.80, 19.2.168.0, 19.21.6.80,
