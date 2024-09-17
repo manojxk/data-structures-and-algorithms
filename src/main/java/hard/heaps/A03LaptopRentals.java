@@ -30,7 +30,7 @@ package hard.heaps;
 
 import java.util.Arrays;
 
-public class LaptopRentals {
+public class A03LaptopRentals {
 
   // Function to calculate the minimum number of laptops required
   public static int minLaptopsRequired(int[][] intervals) {
