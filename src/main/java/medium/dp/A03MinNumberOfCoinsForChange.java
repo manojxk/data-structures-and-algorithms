@@ -21,21 +21,26 @@
  * Output:
  * 3 // 2x1 + 1x5
  */
-/*
-Brute Force Solution
-Approach:
-The brute force approach involves recursively exploring all possible combinations of coins that sum up to the target amount n. This involves checking every denomination and seeing how many coins are needed if we include the current denomination.
 
-Time Complexity:
-O(d^n): Where d is the number of denominations, and n is the target amount. This is because each coin denomination has multiple choices at each step, leading to an exponential number of combinations.
-Space Complexity:
-O(n): Due to the recursion stack.*/
+/*
+ * Brute Force Solution
+ * Approach:
+ * The brute force approach involves recursively exploring all possible combinations of coins that sum up to the target amount `n`.
+ * This involves checking every denomination and seeing how many coins are needed if we include the current denomination.
+ *
+ * Time Complexity:
+ * O(d^n): Where `d` is the number of denominations, and `n` is the target amount.
+ * This is because each coin denomination has multiple choices at each step, leading to an exponential number of combinations.
+ *
+ * Space Complexity:
+ * O(n): Due to the recursion stack.
+ */
 
 package medium.dp;
 
 import java.util.Arrays;
 
-public class MinNumberOfCoinsForChange {
+public class A03MinNumberOfCoinsForChange {
 
   // Brute Force Solution: Recursive Approach
   public static int minNumberOfCoinsForChange(int n, int[] denoms) {
@@ -58,6 +63,19 @@ public class MinNumberOfCoinsForChange {
     return minCoins;
   }
 
+  /*
+   * Optimized Solution: Dynamic Programming
+   * Approach:
+   * The optimized approach uses dynamic programming to store the minimum number of coins required to achieve every amount from 0 to `n`.
+   * We maintain an array `minCoins` where `minCoins[i]` represents the minimum number of coins required to make change for amount `i`.
+   *
+   * Time Complexity:
+   * O(n * d): Where `n` is the target amount, and `d` is the number of denominations.
+   *
+   * Space Complexity:
+   * O(n): For the DP array storing the minimum coins required for each amount up to `n`.
+   */
+
   // Optimized Solution: Dynamic Programming Approach
   public static int minNumberOfCoinsForChangeDP(int n, int[] denoms) {
     int[] minCoins = new int[n + 1];
@@ -75,18 +93,27 @@ public class MinNumberOfCoinsForChange {
     return minCoins[n] == Integer.MAX_VALUE ? -1 : minCoins[n];
   }
 
+  // Main function to test the Min Number of Coins for Change implementation
   public static void main(String[] args) {
     int[] denoms = {1, 5, 10};
     int n = 7;
+
+    // Brute Force Solution Output
     System.out.println(minNumberOfCoinsForChange(n, denoms)); // Output: 3
+
+    // Optimized Dynamic Programming Solution Output
+    System.out.println(minNumberOfCoinsForChangeDP(n, denoms)); // Output: 3
   }
 }
-/*
-Optimized Solution: Dynamic Programming
-Approach:
-The optimized approach uses dynamic programming to store the minimum number of coins required to achieve every amount from 0 to n. We maintain an array minCoins where minCoins[i] represents the minimum number of coins required to make change for amount i.
 
-Time Complexity:
-O(n * d): Where n is the target amount, and d is the number of denominations.
-Space Complexity:
-O(n): For the DP array storing the minimum coins required for each amount up to n.*/
+/*
+ * Summary:
+ *
+ * Brute Force Solution (Recursive)
+ * Time Complexity: O(d^n)
+ * Space Complexity: O(n)
+ *
+ * Optimized Solution (Dynamic Programming)
+ * Time Complexity: O(n * d) where `n` is the target amount and `d` is the number of denominations
+ * Space Complexity: O(n) for storing the `minCoins` array
+ */
