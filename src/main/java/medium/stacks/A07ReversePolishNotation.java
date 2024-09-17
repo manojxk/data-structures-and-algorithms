@@ -39,52 +39,8 @@ package medium.stacks;
 
 import java.util.Stack;
 
-public class EvaluateReversePolishNotation {
-  // Brute Force Solution using Stack
+public class A07ReversePolishNotation {
   public static int evaluateRPN(String[] tokens) {
-    Stack<Integer> stack = new Stack<>();
-
-    for (String token : tokens) {
-      switch (token) {
-        case "+":
-          stack.push(stack.pop() + stack.pop());
-          break;
-        case "-":
-          int b = stack.pop();
-          int a = stack.pop();
-          stack.push(a - b);
-          break;
-        case "*":
-          stack.push(stack.pop() * stack.pop());
-          break;
-        case "/":
-          int divisor = stack.pop();
-          int dividend = stack.pop();
-          stack.push(dividend / divisor);
-          break;
-        default:
-          stack.push(Integer.parseInt(token));
-          break;
-      }
-    }
-
-    return stack.pop();
-  }
-
-  public static void main(String[] args) {
-    String[] tokens = {"50", "3", "17", "+", "2", "-", "/"};
-    int result = evaluateRPN(tokens);
-    System.out.println(result); // Output: 2
-  }
-}
-// Copyright © 2023 AlgoExpert LLC. All rights reserved.
-
-/*
-import java.util.*;
-
-class Program {
-  // O(n) time | O(n) space - where n is the number of tokens
-  public int reversePolishNotation(String[] tokens) {
     Stack<Integer> stack = new Stack<Integer>();
 
     for (String token : tokens) {
@@ -104,5 +60,10 @@ class Program {
     }
     return stack.pop();
   }
+
+  public static void main(String[] args) {
+    String[] tokens = {"50", "3", "17", "+", "2", "-", "/"};
+    int result = evaluateRPN(tokens);
+    System.out.println(result); // Output: 2
+  }
 }
-*/

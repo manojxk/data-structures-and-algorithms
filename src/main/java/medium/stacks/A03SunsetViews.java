@@ -51,7 +51,7 @@ package medium.stacks; /*
 
 import java.util.*;
 
-public class SunsetViews {
+public class A03SunsetViews {
 
   // Brute Force Solution
   public static List<Integer> sunsetViews(int[] buildings, String direction) {

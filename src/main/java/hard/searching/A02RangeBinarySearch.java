@@ -14,7 +14,7 @@ package hard.searching;
  *
  * <p>Sample Output: [4, 9]
  */
-public class FindRangeBinarySearch {
+public class A02RangeBinarySearch {
 
   // Main function that returns the range of indices where the target appears
   public static int[] searchRange(int[] array, int target) {

@@ -61,13 +61,13 @@ package medium.stacks;
 
 import java.util.Stack;
 
-public class MinMaxStack {
+public class A01MinMaxStack {
   private Stack<Integer> stack;
   private Stack<Integer> minStack;
   private Stack<Integer> maxStack;
 
   // Constructor
-  public MinMaxStack() {
+  public A01MinMaxStack() {
     stack = new Stack<>();
     minStack = new Stack<>();
     maxStack = new Stack<>();
@@ -112,7 +112,7 @@ public class MinMaxStack {
   }
 
   public static void main(String[] args) {
-    MinMaxStack stack = new MinMaxStack();
+    A01MinMaxStack stack = new A01MinMaxStack();
     stack.push(5);
     System.out.println(stack.getMin()); // Output: 5
     System.out.println(stack.getMax()); // Output: 5

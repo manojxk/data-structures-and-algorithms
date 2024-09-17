@@ -32,7 +32,7 @@ package medium.stacks;
 
 import java.util.*;
 
-public class BestDigits {
+public class A04BestDigits {
 
   // O(n) time | O(n) space - where n is the length of the input string
   public static String bestDigits(String number, int numDigits) {

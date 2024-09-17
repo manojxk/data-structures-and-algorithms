@@ -28,7 +28,7 @@ Time Complexity:
 O(n^2): For each element, we may need to traverse the entire array.
 Space Complexity:
 O(n): Space is needed to store the output array.*/
-package medium.stacks;
+package cools.stacks;
 
 import java.util.*;
 

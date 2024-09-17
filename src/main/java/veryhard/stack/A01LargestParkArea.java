@@ -39,8 +39,6 @@ import hard.stack.A02LargestRectangleInHistogram;
 
 public class A01LargestParkArea {
 
-
-
   // Main function to find the largest possible park area
   public int largestPark(boolean[][] land) {
     if (land == null || land.length == 0 || land[0].length == 0) {

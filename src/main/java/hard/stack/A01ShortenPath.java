@@ -1,4 +1,6 @@
-package hard.stack;/*
+package hard.stack;
+
+/*
  Problem: Shorten Path
 
  You are given a string that represents a file path in a Unix-like file system. Your task is to simplify the path,
@@ -75,22 +77,24 @@ public class A01ShortenPath {
 
     // Example 1
     String path1 = "/foo/../test/../test/../foo//bar/./baz";
-    System.out.println("Shortened path (Example 1): " + solution.simplifyPath(path1));  // Output: /foo/bar/baz
+    System.out.println(
+        "Shortened path (Example 1): " + solution.simplifyPath(path1)); // Output: /foo/bar/baz
 
     // Example 2
     String path2 = "foo/bar/../bar/baz";
-    System.out.println("Shortened path (Example 2): " + solution.simplifyPath(path2));  // Output: foo/bar/baz
+    System.out.println(
+        "Shortened path (Example 2): " + solution.simplifyPath(path2)); // Output: foo/bar/baz
 
     // Example 3
     String path3 = "/a/./b/../../c/";
-    System.out.println("Shortened path (Example 3): " + solution.simplifyPath(path3));  // Output: /c
+    System.out.println("Shortened path (Example 3): " + solution.simplifyPath(path3)); // Output: /c
   }
 
-    /*
-     Time Complexity:
-     - O(n), where n is the length of the input path string. We split the path and iterate through it once.
+  /*
+   Time Complexity:
+   - O(n), where n is the length of the input path string. We split the path and iterate through it once.
 
-     Space Complexity:
-     - O(n), due to the space used by the stack and the resulting shortened path string.
-    */
+   Space Complexity:
+   - O(n), due to the space used by the stack and the resulting shortened path string.
+  */
 }

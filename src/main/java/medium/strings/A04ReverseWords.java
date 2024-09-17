@@ -42,6 +42,7 @@ public class A04ReverseWords {
     // Step 1: Trim leading and trailing whitespaces and split the string into words
     // by one or more spaces.
     String[] words = s.trim().split("\\s+");
+    
 
     // Step 2: Reverse the array of words.
     List<String> wordList = Arrays.asList(words);
