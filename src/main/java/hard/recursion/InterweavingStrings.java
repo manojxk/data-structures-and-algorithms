@@ -1,113 +1,123 @@
 package hard.recursion;
 
-/**
- * Problem Statement:
- *
- * <p>You are given three strings `one`, `two`, and `three`. Write a function that returns a boolean
- * value indicating whether the third string (`three`) can be formed by interweaving the first two
- * strings (`one` and `two`).
- *
- * <p>To interweave strings means to merge them by alternating their characters without changing the
- * relative order of characters within each string.
- *
- * <p>Example: - "abc" and "123" can be interwoven as: - "a1b2c3" - "abc123" - "ab1c23" - Characters
- * from the strings must maintain their original relative order.
- *
- * <p>Sample Input: one = "algoexpert" two = "your-dream-job" three = "your-algodream-expertjob"
- *
- * <p>Sample Output: true
- *
- * <p>Explanation: The string "your-algodream-expertjob" is an interweaving of the first two strings
- * "algoexpert" and "your-dream-job". The letters in each string maintain their relative order.
- */
+/*
+ Problem: Interweaving Strings
+
+ Given three strings `one`, `two`, and `three`, write a function that determines whether `three` is formed
+ by interleaving `one` and `two`.
+
+ `three` is said to be interleaving `one` and `two` if it contains all characters of `one` and `two` exactly once,
+ while preserving the order of characters within `one` and `two`.
+
+ Example:
+
+ Input:
+   one = "abc"
+   two = "def"
+   three = "adbcef"
+
+ Output: true
+
+ Explanation: The string "adbcef" can be formed by interleaving "abc" and "def".
+
+ Another Example:
+
+ Input:
+   one = "abc"
+   two = "def"
+   three = "abdecf"
+
+ Output: false
+
+ Explanation: The string "abdecf" cannot be formed by interleaving "abc" and "def" since the character "e" comes
+ before "c", which violates the order of characters in "abc".
+*/
+
+/*
+ Solution Steps:
+
+ 1. Use a recursive approach to check if we can build the string `three` by interweaving characters from `one` and `two`.
+ 2. For each character in `three`, check if it can be matched with the current character from either `one` or `two`.
+ 3. If it matches the current character from `one`, move forward in `one` and `three`. If it matches the current character from `two`, move forward in `two` and `three`.
+ 4. Use dynamic programming (memoization) to store intermediate results and avoid recomputation.
+
+ 5. The base case is that when we reach the end of both `one` and `two`, we should also reach the end of `three`.
+*/
+
 public class InterweavingStrings {
 
-  // Brute Force Approach:
-  // Recursively check all possible ways to interleave the characters of `one` and `two`
-  // Time Complexity: O(2^(n + m)) - Each recursive call branches in two directions
-  // Space Complexity: O(n + m) - Recursion depth, where n and m are lengths of `one` and `two`
-  public static boolean interweavingStringsBruteForce(String one, String two, String three) {
-    if (three.length() != one.length() + two.length()) {
-      return false; // If lengths don't match, it can't be interwoven
-    }
-    return areInterwoven(one, two, three, 0, 0);
-  }
+  // Helper function to determine if three is an interweaving of one and two using memoization
+  public boolean isInterleave(String one, String two, String three) {
+    // If the total length of the interweaving string does not match, return false immediately
+    if (one.length() + two.length() != three.length()) return false;
 
-  // Recursive helper function for brute force
-  private static boolean areInterwoven(String one, String two, String three, int i, int j) {
-    int k = i + j; // Index for the third string
-
-    if (k == three.length()) {
-      return true; // Base case: if we've processed all characters in `three`
-    }
-
-    // Try matching with `one` or `two`
-    if (i < one.length() && one.charAt(i) == three.charAt(k)) {
-      if (areInterwoven(one, two, three, i + 1, j)) {
-        return true;
-      }
-    }
-
-    if (j < two.length() && two.charAt(j) == three.charAt(k)) {
-      if (areInterwoven(one, two, three, i, j + 1)) {
-        return true;
-      }
-    }
-
-    return false; // No match found, return false
-  }
-
-  // Optimized Approach with Memoization:
-  // Time Complexity: O(n * m) - Each unique combination of i, j is computed once
-  // Space Complexity: O(n * m) - Memoization table to store intermediate results
-  public static boolean interweavingStringsOptimized(String one, String two, String three) {
-    if (three.length() != one.length() + two.length()) {
-      return false;
-    }
-
+    // Initialize a memoization table to store intermediate results
     Boolean[][] memo = new Boolean[one.length() + 1][two.length() + 1];
-    return areInterwovenMemo(one, two, three, 0, 0, memo);
+
+    return isInterleaveHelper(one, two, three, 0, 0, memo);
   }
 
   // Recursive helper function with memoization
-  private static boolean areInterwovenMemo(
+  private boolean isInterleaveHelper(
       String one, String two, String three, int i, int j, Boolean[][] memo) {
+    // Base case: If we have reached the end of all strings, return true
+    if (i == one.length() && j == two.length()) {
+      return true;
+    }
+
+    // Check the memoization table to avoid re-computation
     if (memo[i][j] != null) {
-      return memo[i][j]; // Return cached result if already computed
+      return memo[i][j];
     }
 
-    int k = i + j; // Index for `three`
-    if (k == three.length()) {
-      return true; // Base case: all characters in `three` are matched
-    }
+    // Determine the current position in the string `three`
+    int k = i + j;
 
-    boolean canInterweave = false;
-
-    // Try matching with `one`
+    // Option 1: If the current character in `one` matches the current character in `three`
     if (i < one.length() && one.charAt(i) == three.charAt(k)) {
-      canInterweave = areInterwovenMemo(one, two, three, i + 1, j, memo);
+      if (isInterleaveHelper(one, two, three, i + 1, j, memo)) {
+        memo[i][j] = true;
+        return true;
+      }
     }
 
-    // Try matching with `two`
-    if (!canInterweave && j < two.length() && two.charAt(j) == three.charAt(k)) {
-      canInterweave = areInterwovenMemo(one, two, three, i, j + 1, memo);
+    // Option 2: If the current character in `two` matches the current character in `three`
+    if (j < two.length() && two.charAt(j) == three.charAt(k)) {
+      if (isInterleaveHelper(one, two, three, i, j + 1, memo)) {
+        memo[i][j] = true;
+        return true;
+      }
     }
 
-    memo[i][j] = canInterweave; // Store result in memo table
-    return canInterweave;
+    // If neither option is true, memoize the result as false
+    memo[i][j] = false;
+    return false;
   }
 
-  // Main function to test the solution
+  // Main function to run and test the solution
   public static void main(String[] args) {
-    // Sample Input
-    String one = "algoexpert";
-    String two = "your-dream-job";
-    String three = "your-algodream-expertjob";
+    InterweavingStrings solution = new InterweavingStrings();
 
-    // Brute Force Solution
-    System.out.println("Brute Force Solution: " + interweavingStringsBruteForce(one, two, three));
+    // Test case 1
+    String one = "abc";
+    String two = "def";
+    String three = "adbcef";
+    System.out.println(
+        "Is interleaving: " + solution.isInterleave(one, two, three)); // Output: true
 
-    // Optimized Solution with Memoization
-    System.out.println("Optimized Solution: " + interweavingStringsOptimized(one, two, three));
+    // Test case 2
+    String one2 = "abc";
+    String two2 = "def";
+    String three2 = "abdecf";
+    System.out.println(
+        "Is interleaving: " + solution.isInterleave(one2, two2, three2)); // Output: false
   }
+
+  /*
+   Time Complexity:
+   - O(m * n), where m is the length of string `one` and n is the length of string `two`. We compute each subproblem once and store the result in the memoization table.
+
+   Space Complexity:
+   - O(m * n), where m is the length of string `one` and n is the length of string `two`, for the memoization table. The recursion stack space is also O(m + n) due to the depth of the recursion.
+  */
 }

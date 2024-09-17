@@ -19,23 +19,30 @@
  * 4. 2 steps, 1 step, 1 step
  * 5. 2 steps, 2 steps
  */
-/*Brute Force Solution
-Approach:
-The brute force solution involves trying all possible combinations of steps that sum up to the height of the staircase. This can be achieved using a recursive approach.
 
-Time Complexity:
-O(maxSteps^height): The time complexity is exponential because at each step, you have up to maxSteps choices.
-Space Complexity:
-O(height): The space complexity is linear due to the recursive call stack.*/
 package medium.recursion;
 
 import java.util.HashMap;
 
 public class StaircaseTraversal {
 
-  // Brute Force Recursive Solution
+  /*
+   * Brute Force Recursive Solution
+   *
+   * Approach:
+   * The brute force solution involves trying all possible combinations of steps that sum up to the height of the staircase.
+   * This can be achieved using a recursive approach.
+   *
+   * Time Complexity:
+   * O(maxSteps^height): The time complexity is exponential because at each step, you have up to maxSteps choices.
+   *
+   * Space Complexity:
+   * O(height): The space complexity is linear due to the recursive call stack.
+   */
   public static int countWaysBruteForce(int height, int maxSteps) {
-    if (height == 0) return 1; // Base case: 1 way to stay at ground level
+    // Base case: 1 way to stay at ground level
+    if (height == 0) return 1;
+
     int totalWays = 0;
     for (int i = 1; i <= maxSteps; i++) {
       if (height - i >= 0) {
@@ -45,23 +52,27 @@ public class StaircaseTraversal {
     return totalWays;
   }
 
-  /*  Optimized Solution 1: Memoization
-  Approach:
-  To avoid recalculating results for the same subproblems, we can use memoization. We store the results of subproblems in an array and reuse them when needed.
-
-  Time Complexity:
-  O(height * maxSteps): We solve each subproblem only once, leading to a polynomial time complexity.
-  Space Complexity:
-  O(height): The space complexity is linear, required to store the results of subproblems.*/
-
-  // Optimized Recursive Solution with Memoization
+  /*
+   * Optimized Solution 1: Memoization
+   *
+   * Approach:
+   * To avoid recalculating results for the same subproblems, we can use memoization.
+   * We store the results of subproblems in a HashMap and reuse them when needed.
+   *
+   * Time Complexity:
+   * O(height * maxSteps): We solve each subproblem only once, leading to a polynomial time complexity.
+   *
+   * Space Complexity:
+   * O(height): The space complexity is linear, required to store the results of subproblems.
+   */
   public static int countWaysMemoization(int height, int maxSteps) {
     HashMap<Integer, Integer> memo = new HashMap<>();
     return countWaysHelper(height, maxSteps, memo);
   }
 
   private static int countWaysHelper(int height, int maxSteps, HashMap<Integer, Integer> memo) {
-    if (height == 0) return 1; // Base case
+    // Base case
+    if (height == 0) return 1;
     if (memo.containsKey(height)) return memo.get(height);
 
     int totalWays = 0;
@@ -75,19 +86,24 @@ public class StaircaseTraversal {
     return totalWays;
   }
 
-  /*  Optimized Solution 2: Dynamic Programming
-  Approach:
-  We can use dynamic programming to iteratively build the solution from the ground up. We define an array dp where dp[i] represents the number of ways to reach the i-th step.
-
-  Time Complexity:
-  O(height * maxSteps): We fill the dp array in a bottom-up manner.
-  Space Complexity:
-  O(height): The space complexity is linear, required to store the dp array.*/
-  // Optimized Solution with Dynamic Programming
+  /*
+   * Optimized Solution 2: Dynamic Programming
+   *
+   * Approach:
+   * We can use dynamic programming to iteratively build the solution from the ground up.
+   * We define an array `dp` where `dp[i]` represents the number of ways to reach the i-th step.
+   *
+   * Time Complexity:
+   * O(height * maxSteps): We fill the dp array in a bottom-up manner.
+   *
+   * Space Complexity:
+   * O(height): The space complexity is linear, required to store the dp array.
+   */
   public static int countWaysDP(int height, int maxSteps) {
     int[] dp = new int[height + 1];
     dp[0] = 1; // Base case: 1 way to stay at ground level
 
+    // Fill the dp array
     for (int i = 1; i <= height; i++) {
       for (int j = 1; j <= maxSteps; j++) {
         if (i - j >= 0) {
@@ -99,9 +115,21 @@ public class StaircaseTraversal {
     return dp[height];
   }
 
+  // Main function to test the solutions
   public static void main(String[] args) {
     int height = 4;
     int maxSteps = 2;
-    System.out.println(countWaysBruteForce(height, maxSteps)); // Output: 5
+
+    // Test Brute Force Solution
+    System.out.println(
+        "Brute Force Solution: " + countWaysBruteForce(height, maxSteps)); // Output: 5
+
+    // Test Memoization Solution
+    System.out.println(
+        "Memoization Solution: " + countWaysMemoization(height, maxSteps)); // Output: 5
+
+    // Test Dynamic Programming Solution
+    System.out.println(
+        "Dynamic Programming Solution: " + countWaysDP(height, maxSteps)); // Output: 5
   }
 }
