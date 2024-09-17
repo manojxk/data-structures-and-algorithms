@@ -1,21 +1,23 @@
-package medium.binarysearchtrees; /*
-                                   Problem: Min Height BST
+package medium.binarysearchtrees;
 
-                                   You are given a sorted array of distinct integers. Your task is to create a binary search tree (BST) with minimal height.
-                                   The height of a binary search tree is defined as the number of edges on the longest path from the root to a leaf.
+/*
+ Problem: Min Height BST
 
-                                   Example:
+ You are given a sorted array of distinct integers. Your task is to create a binary search tree (BST) with minimal height.
+ The height of a binary search tree is defined as the number of edges on the longest path from the root to a leaf.
 
-                                   Input:
-                                     array = [1, 2, 5, 7, 10, 13, 14, 15, 22]
-                                   Output:
-                                     A binary search tree with minimal height.
+ Example:
 
-                                   Explanation:
-                                   - The idea is to create the root node from the middle element of the array, and then recursively do the same for the left and right halves of the array.
-                                   - This ensures that the tree is balanced, and thus has minimal height.
+ Input:
+   array = [1, 2, 5, 7, 10, 13, 14, 15, 22]
+ Output:
+   A binary search tree with minimal height.
 
-                                  */
+ Explanation:
+ - The idea is to create the root node from the middle element of the array, and then recursively do the same for the left and right halves of the array.
+ - This ensures that the tree is balanced, and thus has minimal height.
+
+*/
 
 /*
  Solution Steps:
