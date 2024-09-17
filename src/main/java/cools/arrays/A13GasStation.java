@@ -33,7 +33,7 @@ package cools.arrays;
 public class A13GasStation {
 
   // Function to find the starting gas station index if a valid circuit exists
-  public int canCompleteCircuit(int[] gas, int[] cost) {
+  public static int canCompleteCircuit(int[] gas, int[] cost) {
     int totalGas = 0; // Track the total gas available
     int totalCost = 0; // Track the total cost required
     int tank = 0; // Track the current gas in the tank
