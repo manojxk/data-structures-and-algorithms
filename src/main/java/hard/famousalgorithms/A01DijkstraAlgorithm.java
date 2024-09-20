@@ -143,3 +143,30 @@ public class A01DijkstraAlgorithm {
     System.out.println(Arrays.toString(result)); // Expected output: [0, 7, 13, 27, 10, -1]
   }
 }
+
+
+/* Time Complexity (TC): O((V + E) * log V)
+V: Number of vertices.
+E: Number of edges.
+log V: Comes from the priority queue operations (insert and extract min).
+Breakdown:
+Priority Queue Operations:
+
+Extracting the minimum element and inserting updated distances into the min-heap takes O(log V).
+Each vertex can be processed once, and each edge can be relaxed once.
+Total Complexity:
+
+O(V log V) for processing vertices.
+O(E log V) for edge relaxation.
+Combined: O((V + E) * log V).
+Space Complexity (SC): O(V + E)
+V: Space for distance array and visited array (O(V)).
+E: Space for storing the adjacency list (O(E)).
+Breakdown:
+Adjacency List: O(V + E) for storing edges.
+Distance & Visited Arrays: O(V) for tracking distances and visited nodes.
+Priority Queue: At most O(V) elements in the queue.
+Summary:
+
+TC: O((V + E) * log V).
+SC: O(V + E). */
