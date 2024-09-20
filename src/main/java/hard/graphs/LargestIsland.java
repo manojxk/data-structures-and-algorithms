@@ -1,180 +1,124 @@
 package hard.graphs;
 
-/**
+/*
  * Problem Statement:
  *
- * <p>You are given a two-dimensional matrix of potentially unequal height and width containing only
- * 0's and 1's. Each '1' represents water, and each '0' represents part of a land mass. A land mass
- * consists of any number of '0's that are either horizontally or vertically adjacent (but not
- * diagonally adjacent). The number of adjacent '0's forming a land mass determines its size.
+ * You are given an `n x n` binary matrix `grid`. Each cell is either 0 (representing water) or 1 (representing land).
+ * An island is a group of 1's connected 4-directionally (horizontal or vertical). You may change at most one 0 to 1,
+ * and you need to return the size of the largest island in the grid after doing so.
  *
- * <p>The land mass can have complex shapes, like an L-shape. The task is to find the largest
- * possible land mass size after changing exactly one '1' in the matrix to '0'. You may mutate the
- * matrix to compute this, and you are guaranteed that the matrix contains at least one '1'.
+ * If no land exists after flipping a 0 to 1, return 0.
  *
- * <p>Sample Input: matrix = [ [0, 1, 1], [0, 0, 1], [1, 1, 0] ]
+ * Example:
  *
- * <p>Sample Output: 5 // Changing either matrix[1][2] or matrix[2][1] creates a land mass of size
- * 5.
+ * Input:
+ * grid = [
+ *   [1, 0],
+ *   [0, 1]
+ * ]
+ *
+ * Output: 3
+ *
+ * Explanation:
+ * By flipping a 0 in the grid to 1, we can connect the two 1s to form a single island of size 3.
  */
+
+/*
+ * Solution Approach:
+ *
+ * 1. Use Depth First Search (DFS) to calculate the size of each island and assign a unique index to each island.
+ * 2. Create a mapping from island index to its size.
+ * 3. For every water cell (0), check its neighbors (adjacent land cells), and calculate the potential size of the island if that water cell is flipped to land.
+ * 4. Return the largest possible island size.
+ */
+
 import java.util.*;
 
 public class LargestIsland {
 
-  // Brute Force Approach:
-  // For every water cell ('1'), we try changing it to land ('0') and compute the largest land mass.
-  // Time Complexity: O(n^3) - For each '1', we perform a DFS or BFS which can take O(n^2) in the
-  // worst case.
-  // Space Complexity: O(n^2) - For storing visited states and recursion stack or queue during
-  // DFS/BFS.
-  public static int largestLandMassBruteForce(int[][] matrix) {
-    int maxLandMass = 0;
-    int rows = matrix.length;
-    int cols = matrix[0].length;
-
-    // Iterate over every cell
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        if (matrix[i][j] == 1) {
-          // Change water to land temporarily
-          matrix[i][j] = 0;
-          maxLandMass = Math.max(maxLandMass, getLandMassSize(matrix));
-          // Change it back to water
-          matrix[i][j] = 1;
-        }
-      }
-    }
-    return maxLandMass;
-  }
-
-  // Helper function to calculate land mass size using DFS
-  private static int getLandMassSize(int[][] matrix) {
-    int maxLandMass = 0;
-    boolean[][] visited = new boolean[matrix.length][matrix[0].length];
-
-    for (int i = 0; i < matrix.length; i++) {
-      for (int j = 0; j < matrix[0].length; j++) {
-        if (matrix[i][j] == 0 && !visited[i][j]) {
-          maxLandMass = Math.max(maxLandMass, dfs(matrix, visited, i, j));
-        }
-      }
-    }
-    return maxLandMass;
-  }
-
-  // DFS to explore the land mass
-  private static int dfs(int[][] matrix, boolean[][] visited, int i, int j) {
-    if (i < 0
-        || i >= matrix.length
-        || j < 0
-        || j >= matrix[0].length
-        || matrix[i][j] == 1
-        || visited[i][j]) {
+  // Helper function to perform DFS and calculate island size
+  public static int dfs(int[][] grid, int i, int j, int islandIndex) {
+    // Base case: out of bounds or water cell (0)
+    if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] != 1) {
       return 0;
     }
 
-    visited[i][j] = true;
+    // Mark the cell with the island index
+    grid[i][j] = islandIndex;
 
-    // Explore all 4 directions (no diagonals allowed)
-    return 1
-        + dfs(matrix, visited, i - 1, j)
-        + dfs(matrix, visited, i + 1, j)
-        + dfs(matrix, visited, i, j - 1)
-        + dfs(matrix, visited, i, j + 1);
+    // Calculate the size of the island by exploring in all 4 directions
+    int size = 1; // Count current land cell
+    size += dfs(grid, i + 1, j, islandIndex); // Down
+    size += dfs(grid, i - 1, j, islandIndex); // Up
+    size += dfs(grid, i, j + 1, islandIndex); // Right
+    size += dfs(grid, i, j - 1, islandIndex); // Left
+
+    return size;
   }
 
-  // Optimized Approach:
-  // Step 1: Compute sizes of all existing land masses.
-  // Step 2: For each water cell ('1'), check how many distinct land masses it can connect to.
-  // Time Complexity: O(n^2) - We traverse the matrix multiple times, but each DFS is only performed
-  // once.
-  // Space Complexity: O(n^2) - For storing visited and land mass sizes.
-  public static int largestLandMassOptimized(int[][] matrix) {
-    int rows = matrix.length;
-    int cols = matrix[0].length;
-    int[][] landMassSizes = new int[rows][cols];
-    int landMassId = 2; // Start IDs from 2 (since 0 and 1 are taken for land/water)
-    Map<Integer, Integer> landMassSizeMap = new HashMap<>();
-    boolean[][] visited = new boolean[rows][cols];
+  // Function to find the largest island size
+  public static int largestIsland(int[][] grid) {
+    int n = grid.length;
+    Map<Integer, Integer> islandSizeMap = new HashMap<>();
+    int islandIndex = 2; // Start island index from 2 (since 1 is land and 0 is water)
+    int maxIslandSize = 0;
 
-    // Step 1: Find all land masses and store their sizes
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        if (matrix[i][j] == 0 && !visited[i][j]) {
-          int size = dfsOptimized(matrix, visited, i, j, landMassId, landMassSizes);
-          landMassSizeMap.put(landMassId, size);
-          landMassId++;
+    // Step 1: Find all islands and calculate their sizes
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        if (grid[i][j] == 1) {
+          // Calculate the size of the island and assign an index to it
+          int size = dfs(grid, i, j, islandIndex);
+          islandSizeMap.put(islandIndex, size);
+          maxIslandSize = Math.max(maxIslandSize, size);
+          islandIndex++;
         }
       }
     }
 
-    // Step 2: Check each water cell ('1') and calculate potential max land mass size
-    int maxLandMass = 0;
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        if (matrix[i][j] == 1) {
-          Set<Integer> connectedLandMassIds = new HashSet<>();
-          // Check all 4 possible directions (up, down, left, right)
-          if (i > 0 && landMassSizes[i - 1][j] > 1)
-            connectedLandMassIds.add(landMassSizes[i - 1][j]);
-          if (i < rows - 1 && landMassSizes[i + 1][j] > 1)
-            connectedLandMassIds.add(landMassSizes[i + 1][j]);
-          if (j > 0 && landMassSizes[i][j - 1] > 1)
-            connectedLandMassIds.add(landMassSizes[i][j - 1]);
-          if (j < cols - 1 && landMassSizes[i][j + 1] > 1)
-            connectedLandMassIds.add(landMassSizes[i][j + 1]);
+    // Step 2: Check each water cell (0) and calculate the potential size of the island if we flip
+    // it to 1
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        if (grid[i][j] == 0) {
+          Set<Integer> adjacentIslands = new HashSet<>();
+          int potentialSize = 1; // We are flipping one water cell to land
 
-          // Sum the sizes of the distinct land masses this '1' can connect to
-          int newLandMassSize = 1; // Changing '1' to '0'
-          for (int landId : connectedLandMassIds) {
-            newLandMassSize += landMassSizeMap.get(landId);
+          // Check all 4 directions
+          if (i > 0 && grid[i - 1][j] > 1) adjacentIslands.add(grid[i - 1][j]);
+          if (i < n - 1 && grid[i + 1][j] > 1) adjacentIslands.add(grid[i + 1][j]);
+          if (j > 0 && grid[i][j - 1] > 1) adjacentIslands.add(grid[i][j - 1]);
+          if (j < n - 1 && grid[i][j + 1] > 1) adjacentIslands.add(grid[i][j + 1]);
+
+          // Add the sizes of all adjacent islands
+          for (int island : adjacentIslands) {
+            potentialSize += islandSizeMap.get(island);
           }
 
-          maxLandMass = Math.max(maxLandMass, newLandMassSize);
+          // Update the maximum island size if the potential size is larger
+          maxIslandSize = Math.max(maxIslandSize, potentialSize);
         }
       }
     }
 
-    return maxLandMass;
+    return maxIslandSize;
   }
 
-  // DFS for optimized approach
-  private static int dfsOptimized(
-      int[][] matrix, boolean[][] visited, int i, int j, int landMassId, int[][] landMassSizes) {
-    if (i < 0
-        || i >= matrix.length
-        || j < 0
-        || j >= matrix[0].length
-        || matrix[i][j] == 1
-        || visited[i][j]) {
-      return 0;
-    }
-
-    visited[i][j] = true;
-    landMassSizes[i][j] = landMassId;
-
-    // Explore all 4 directions (no diagonals allowed)
-    return 1
-        + dfsOptimized(matrix, visited, i - 1, j, landMassId, landMassSizes)
-        + dfsOptimized(matrix, visited, i + 1, j, landMassId, landMassSizes)
-        + dfsOptimized(matrix, visited, i, j - 1, landMassId, landMassSizes)
-        + dfsOptimized(matrix, visited, i, j + 1, landMassId, landMassSizes);
-  }
-
-  // Main function to test the solution
+  // Main function to test the largestIsland implementation
   public static void main(String[] args) {
-    int[][] matrix = {
-      {0, 1, 1},
-      {0, 0, 1},
-      {1, 1, 0}
-    };
+    int[][] grid = {{0, 1, 1},
+                    {0, 0, 1},
+                    {1, 1, 0}};
 
-    // Brute Force Solution
-    int resultBruteForce = largestLandMassBruteForce(matrix);
-    System.out.println("Brute Force Solution: " + resultBruteForce);
-
-    // Optimized Solution
-    int resultOptimized = largestLandMassOptimized(matrix);
-    System.out.println("Optimized Solution: " + resultOptimized);
+    // Output: 3
+    System.out.println("Largest Island Size: " + largestIsland(grid));
   }
+
+  /*
+   * Time Complexity:
+   * O(n^2), where n is the size of the grid. We perform DFS on each land cell once and then check each water cell.
+   *
+   * Space Complexity:
+   * O(n^2), for storing the grid, the island size map, and the recursion stack during DFS.
+   */
 }
