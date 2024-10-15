@@ -93,3 +93,68 @@ The OS performs several essential functions:
 
 
 
+
+
+## System Calls in Operating Systems
+
+### Definition
+- **System Call**: A mechanism for user programs to request services from the operating system's kernel. It serves as an interface between user applications and the OS, allowing access to system resources.
+
+### How System Calls Work
+1. **User Space vs. Kernel Space**: User applications run in user space; system calls transition control to the kernel space.
+2. **Request Process**: When a program needs OS services, it makes a system call:
+   - The process issues an interrupt request, pausing its execution.
+   - Control is transferred to the kernel, which performs the requested action.
+   - The kernel returns results to the application, allowing it to resume execution.
+
+### Why Are System Calls Needed?
+- **File Operations**: To create, delete, read, or write files.
+- **Networking**: For sending and receiving data packets.
+- **Device Access**: To interact with hardware devices (e.g., printers, scanners).
+- **Process Management**: To create and manage processes.
+
+### Types of System Calls
+There are commonly five types of system calls:
+
+1. **Process Control**
+   - Manages processes (e.g., create, terminate).
+   - Examples: `fork()`, `exec()`, `wait()`, `exit()`.
+
+2. **File Management**
+   - Handles file operations (e.g., create, open, read, write, delete).
+   - Examples: `open()`, `read()`, `write()`, `close()`.
+
+3. **Device Management**
+   - Manages device interactions (e.g., read, write, release).
+   - Examples: `ioctl()`, `read()`, `write()`.
+
+4. **Information Maintenance**
+   - Maintains system information (e.g., system time, resource usage).
+   - Examples: `getpid()`, `settime()`, `getsysinfo()`.
+
+5. **Communication**
+   - Facilitates inter-process communication (IPC).
+   - Examples: `pipe()`, `msgget()`, `shmget()`.
+
+### Examples of System Calls
+| **Function** | **Description**                                                |
+|--------------|---------------------------------------------------------------|
+| `open()`     | Opens a file, allocating resources and providing a file handle. |
+| `read()`     | Reads data from a file; requires file descriptor and buffer.   |
+| `write()`    | Writes data to a file; takes file descriptor and data to write. |
+| `wait()`     | Suspends a parent process until a child process completes.     |
+
+### Examples of System Calls in Windows and Unix
+| **Operation**      | **Windows**                                    | **Unix**                    |
+|--------------------|------------------------------------------------|-----------------------------|
+| Process Control     | `CreateProcess()`, `ExitProcess()`           | `fork()`, `exit()`, `wait()`|
+| File Manipulation   | `CreateFile()`, `ReadFile()`, `WriteFile()` | `open()`, `read()`, `write()`|
+| Device Management    | `ReadConsole()`, `WriteConsole()`            | `read()`, `write()`         |
+| Information Maintenance| `GetCurrentProcessID()`, `SetTimer()`      | `getpid()`, `alarm()`       |
+| Communication       | `CreatePipe()`, `MapViewOfFile()`            | `pipe()`, `shmget()`        |
+
+### Conclusion
+System calls are vital for resource management and communication between user applications and the operating system, providing essential functionality for executing tasks and managing system resources effectively.
+
+--- 
+
