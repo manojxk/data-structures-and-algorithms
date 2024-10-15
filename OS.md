@@ -247,3 +247,4 @@ int main() {
 - **Kernel Mode**: Managing hardware, running device drivers, handling interrupts, process management.
 
 
+![image](https://github.com/user-attachments/assets/1464bc5a-ab15-48d4-9b87-ad46ab89feb4)
