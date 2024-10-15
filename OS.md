@@ -248,3 +248,64 @@ int main() {
 
 
 ![image](https://github.com/user-attachments/assets/1464bc5a-ab15-48d4-9b87-ad46ab89feb4)
+
+
+## Process Scheduling Algorithms: Preemption vs. Non-Preemption
+
+Process scheduling in an operating system (OS) is essential for efficiently managing CPU resources among various processes. This involves choosing which process to execute next based on a specific algorithm. Scheduling can be classified into two categories: **preemptive** and **non-preemptive** scheduling.
+
+### 1. Preemptive Scheduling
+In preemptive scheduling, the operating system can interrupt a currently running process to assign the CPU to another process. This approach allows for more responsive systems, particularly in environments where time-sharing is important.
+
+#### Characteristics:
+- **Interruption**: A running process can be temporarily halted (preempted) before it completes its execution.
+- **Time-sharing**: Suitable for multitasking environments, ensuring that all processes get CPU time.
+- **Higher responsiveness**: Helps in scenarios where tasks with higher priorities need immediate attention.
+
+#### Common Algorithms:
+- **Round Robin**: Each process is assigned a fixed time slice or quantum. If a process does not finish within this time, it is preempted, and the next process is given CPU time.
+- **Shortest Remaining Time First (SRTF)**: If a new process arrives with a shorter burst time than the remaining time of the currently running process, the current process is preempted.
+- **Priority Scheduling (Preemptive)**: If a new process arrives with a higher priority than the currently running process, the OS can preempt the current process.
+
+#### Advantages:
+- Improves system responsiveness.
+- Reduces average waiting time for shorter processes.
+- Can efficiently handle high-priority tasks.
+
+#### Disadvantages:
+- Overhead due to frequent context switching.
+- Complexity in maintaining process states.
+
+### 2. Non-Preemptive Scheduling
+In non-preemptive scheduling, once a process is allocated the CPU, it runs to completion or voluntarily yields control. This method can simplify the scheduling algorithm since the OS does not have to deal with interruptions.
+
+#### Characteristics:
+- **No interruption**: A process cannot be preempted and will run until it completes or blocks for I/O.
+- **Simplicity**: Easier to implement due to lack of context switching during execution.
+- **Predictable behavior**: Processes have predictable execution times.
+
+#### Common Algorithms:
+- **First-Come, First-Served (FCFS)**: Processes are executed in the order they arrive in the ready queue.
+- **Shortest Job Next (SJN)**: The process with the smallest execution time is selected next. It does not allow preemption.
+- **Priority Scheduling (Non-Preemptive)**: The process with the highest priority runs to completion without interruption.
+
+#### Advantages:
+- Lower overhead from context switching.
+- Easier to implement and manage.
+
+#### Disadvantages:
+- Can lead to longer average waiting time, especially for short processes (convoy effect).
+- Poor responsiveness in time-sharing environments.
+
+### Comparison Table
+
+| **Aspect**                | **Preemptive Scheduling**              | **Non-Preemptive Scheduling**           |
+|---------------------------|----------------------------------------|-----------------------------------------|
+| **Interruption**          | Yes                                    | No                                      |
+| **Context Switching**     | Higher overhead                        | Lower overhead                          |
+| **Implementation**        | More complex                           | Simpler                                 |
+| **Responsiveness**        | High                                   | Lower                                   |
+| **Average Waiting Time**  | Generally lower for short processes    | Can be higher, especially for short processes |
+| **Examples of Algorithms**| Round Robin, SRTF, Preemptive Priority| FCFS, SJN, Non-Preemptive Priority     |
+
+
