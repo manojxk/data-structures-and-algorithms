@@ -51,3 +51,27 @@ The OS performs several essential functions:
 
 ![image](https://github.com/user-attachments/assets/f83d9da2-f0b3-4646-a487-62da754a03a0)
 
+
+### **Process States in an Operating System**
+
+| **State**                | **Description**                                                                                                                                                                           |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **New State**            | A program in secondary memory is started for execution; the process is in a new state.                                                                                                 |
+| **Ready State**          | After loading into main memory, a process transitions from new to ready. It waits for the CPU to execute it. Multiple processes can be in the ready state in a multiprogramming environment. |
+| **Run State**            | A process that is allotted CPU for execution moves from the ready state to the run state.                                                                                              |
+| **Terminate State**      | After a process finishes execution, it moves from the run state to the terminate state. The OS deletes the Process Control Block (PCB) in this state.                                    |
+| **Block or Wait State**  | If a process requires an I/O operation or a blocked resource, it transitions from run to block or wait state. It moves back to the ready state once the I/O operation or resource is available. |
+| **Suspend Ready State**  | If a higher-priority process needs execution while main memory is full, a lower-priority process is moved from ready to suspend ready state, freeing up space for the higher-priority process. |
+| **Suspend Wait State**   | Similar to suspend ready, a lower-priority process is moved from wait to suspend wait state to free up memory for higher-priority processes. It moves back to ready once resources or memory are available. |
+
+### **Important Notes**
+
+- **Minimum States**: A process must pass through at least four states (new, run, ready, terminate) to be considered complete. If I/O is required, a minimum of five states is needed.
+- **CPU Utilization**: Only one process can run at a time on a single CPU. With \(n\) processors, \(n\) processes can run simultaneously.
+- **Memory Presence**:
+  - **Secondary Memory**: New state, suspend wait state, suspend ready state
+  - **Main Memory**: Ready state, run state, wait state
+
+- **Optimal Suspension**: Moving a process from wait to suspend wait state is preferable when memory is full. This is better than suspending lower-priority ready processes, as the blocked process is already waiting for an unavailable resource.
+
+
