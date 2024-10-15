@@ -158,3 +158,61 @@ System calls are vital for resource management and communication between user ap
 
 --- 
 
+
+
+---
+
+### `fork()` System Call
+
+#### Definition:
+- The `fork()` system call is used in Unix/Linux operating systems to create a new process by duplicating an existing process.
+
+#### Key Characteristics:
+- **Creates Child Process**: The newly created process is called the child process, while the process that called `fork()` is known as the parent process.
+- **Process ID**: `fork()` returns the child's process ID (PID) to the parent and 0 to the child.
+- **Copy of Parent**: The child process is an exact duplicate of the parent process, with its own memory space. Changes made in the child do not affect the parent and vice versa.
+
+#### Execution Flow:
+1. **Return Value**:
+   - In the parent process, `fork()` returns the child's PID.
+   - In the child process, `fork()` returns 0.
+   - If an error occurs, it returns -1.
+   
+2. **Separate Execution**: After a `fork()`, both processes run concurrently.
+
+3. **Resource Allocation**: Each process has its own memory space, file descriptors, and process control blocks.
+
+#### Use Cases:
+- **Creating a New Process**: Often used to start new applications or execute different tasks in parallel.
+- **Process Management**: Commonly used in server applications to handle multiple requests simultaneously.
+
+#### Example Code (C):
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    pid_t pid = fork(); // Create a new process
+
+    if (pid < 0) {
+        // Fork failed
+        perror("Fork failed");
+        return 1;
+    } else if (pid == 0) {
+        // Child process
+        printf("This is the child process.\n");
+    } else {
+        // Parent process
+        printf("This is the parent process. Child PID: %d\n", pid);
+    }
+
+    return 0;
+}
+```
+
+#### Important Notes:
+- **Zombie Processes**: If the parent does not call `wait()` to collect the exit status of the child, the child may become a zombie process.
+- **Process Limits**: Each system has limits on the number of processes a user can create, which can affect the successful creation of child processes.
+- **Multithreading**: In a multithreaded program, `fork()` only duplicates the calling thread, not all threads.
+
+---
