@@ -49,7 +49,8 @@ The OS performs several essential functions:
 | **Supercomputer Operating System**  | Cray OS, IBM AIX                      |
 | **Network Operating System**       | Cisco IOS, Junos                      |
 
-![image](https://github.com/user-attachments/assets/f83d9da2-f0b3-4646-a487-62da754a03a0)
+![image](https://github.com/user-attachments/assets/97ec7fd4-417f-4c03-9f12-bd0007224007)
+
 
 
 ### **Process States in an Operating System**
@@ -73,5 +74,22 @@ The OS performs several essential functions:
   - **Main Memory**: Ready state, run state, wait state
 
 - **Optimal Suspension**: Moving a process from wait to suspend wait state is preferable when memory is full. This is better than suspending lower-priority ready processes, as the blocked process is already waiting for an unavailable resource.
+
+
+
+### **Schedulers in Operating Systems**
+
+| **Scheduler Type**         | **Description**                                                                                                                                                        |
+|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **1. Long-Term Scheduler**  | - Also known as **Job Scheduler**.<br>- Selects processes from secondary memory and loads them into the ready queue in primary memory.<br>- Controls the degree of multiprogramming.<br>- Aims to maintain a balanced mix of I/O-bound and CPU-bound processes to optimize system performance. <br>- Improper selection can lead to CPU idleness and reduced multiprogramming. |
+| **2. Short-Term Scheduler** | - Also known as **CPU Scheduler**.<br>- Chooses one job from the ready queue and dispatches it to the CPU for execution.<br>- Uses scheduling algorithms to determine job selection.<br>- Essential for minimizing wait time; poor selection can lead to “starvation” of other jobs with longer burst times. |
+| **3. Medium-Term Scheduler**| - Manages processes that are swapped out of main memory.<br>- Handles processes that need I/O time by transitioning them from the running state to the waiting state.<br>- Responsible for swapping processes in and out of memory to optimize multiprogramming.<br>- Reduces the degree of multiprogramming to manage resources effectively. |
+
+### **Key Points**
+
+- **Long-Term Scheduler**: Influences system performance by selecting an appropriate mix of processes. A critical factor in achieving efficient multiprogramming.
+- **Short-Term Scheduler**: Affects responsiveness and efficiency. Must carefully manage job selection to prevent delays and resource starvation.
+- **Medium-Term Scheduler**: Facilitates resource management by controlling process swapping, enhancing the overall system performance and efficiency.
+
 
 
