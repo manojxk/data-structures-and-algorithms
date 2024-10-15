@@ -216,3 +216,34 @@ int main() {
 - **Multithreading**: In a multithreaded program, `fork()` only duplicates the calling thread, not all threads.
 
 ---
+
+### User Mode vs. Kernel Mode 
+
+1. **User Mode**:
+   - Runs applications with **limited access** to system resources.
+   - Cannot interact directly with hardware or system memory.
+   - **Safer** mode, errors only affect the running application.
+   - **System calls** switch the mode to kernel for resource access.
+
+2. **Kernel Mode**:
+   - Runs OS kernel and system services with **full access** to resources.
+   - Can directly control hardware and system memory.
+   - Errors in kernel mode can **crash the entire system**.
+   - Handles device drivers, interrupts, and system management.
+
+3. **Mode Switching**:
+   - Happens via **system calls** or interrupts when a user program requests services from the OS.
+
+4. **Security**:
+   - User mode enhances security by **restricting access**.
+   - Kernel mode is powerful but **riskier** if something goes wrong.
+
+### Key Points:
+- **User Mode**: Restricted, safer.
+- **Kernel Mode**: Full access, riskier.
+
+### Examples:
+- **User Mode**: Running applications like a web browser or text editor.
+- **Kernel Mode**: Managing hardware, running device drivers, handling interrupts, process management.
+
+
