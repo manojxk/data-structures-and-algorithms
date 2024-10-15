@@ -25,16 +25,28 @@ The OS performs several essential functions:
 
 ---
 
-#### **Types of Operating Systems**
 
-Operating systems can be categorized into different types based on their purposes, functionalities, and use cases. Here’s a summary of the main types of operating systems:
 
-| **Type of OS**                   | **Purpose**                                               | **Examples**               | **Advantages**                                           | **Disadvantages**                                     |
-|----------------------------------|-----------------------------------------------------------|----------------------------|---------------------------------------------------------|------------------------------------------------------|
-| **Batch Operating System**       | Automates repetitive tasks by processing jobs in batches. | Early IBM systems          | Efficient for large data processing tasks.              | No user interaction during execution; potential delays. |
-| **Time-Sharing/Multitasking OS** | Allows multiple users and tasks to share system resources simultaneously. | Unix, Linux                | Supports multi-user environments; promotes resource utilization. | Requires complex resource scheduling and more hardware resources. |
-| **Real-Time Operating System (RTOS)** | Designed for systems where response time is critical.    | VxWorks, QNX               | Predictable and fast response times.                    | Limited flexibility; specific to real-time applications. |
-| **Distributed Operating System** | Manages a group of computers to provide a unified experience. | Amoeba, Plan 9            | Resource sharing and increased computation power.       | Complex to implement and secure.                     |
-| **Network Operating System (NOS)** | Manages network resources and allows communication between computers. | Windows Server, Linux with Samba | Facilitates file sharing and centralized resource management. | Dependency on network infrastructure; security vulnerabilities. |
-| **Mobile Operating System**      | Optimized for mobile devices, focusing on power efficiency and usability. | Android, iOS               | Lightweight, touch-optimized, and power-efficient.      | Limited multitasking and processing power compared to desktop OS. |
+### **Types of Operating Systems**
+
+| **Type of OS**                      | **Description**                                                                                                                                                            | **Examples**                               |
+|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------|
+| **1. Batch Operating System**       | - Processes jobs (programs) in batches, one after the other.<br>- No user interaction during job execution.<br>- Efficient for large-scale computations and data processing. | IBM System/360, UNIVAC 1108                |
+| **2. Multi-Programmed Operating System** | - Allows multiple programs to run concurrently.<br>- Shares resources (CPU, memory) among programs.<br>- Improves system utilization and reduces idle time.             | Early Unix, OS/360                        |
+| **3. Multitasking Operating System**      | - Allows multiple tasks (programs) to run simultaneously.<br>- Switches between tasks quickly, providing an interactive experience.                                      | Windows, macOS, Linux                      |
+| **4. Real-Time Operating System (RTOS)**   | - Guarantees task completion within strict time constraints.<br>- Prioritizes tasks based on urgency and importance.<br>- Used in critical systems like aerospace, medical devices, and industrial control. | VxWorks, QNX, FreeRTOS                     |
+| **5. Distributed Operating System**         | - Manages multiple computers connected via a network.<br>- Coordinates resource sharing and communication.<br>- Scalable, fault-tolerant, and flexible.                | Google's Borg, Apache Hadoop               |
+| **6. Clustered Operating System**           | - Groups multiple computers to form a single system.<br>- Improves performance, availability, and scalability.<br>- Used in high-performance computing, data centers, and cloud computing. | Beowulf cluster, Microsoft Cluster Server   |
+| **7. Embedded Operating System**            | - Designed for specialized devices (e.g., IoT, consumer electronics).<br>- Optimized for resource-constrained environments, real-time performance, and low power consumption. | Android Things, FreeRTOS, VxWorks          |
+
+### **Other Types of Operating Systems**
+
+| **Type**                          | **Examples**                          |
+|-----------------------------------|---------------------------------------|
+| **Mobile Operating System**        | Android, iOS                          |
+| **Server Operating System**        | Windows Server, Linux                 |
+| **Mainframe Operating System**     | z/OS, z/VM                            |
+| **Supercomputer Operating System**  | Cray OS, IBM AIX                      |
+| **Network Operating System**       | Cisco IOS, Junos                      |
+
 
