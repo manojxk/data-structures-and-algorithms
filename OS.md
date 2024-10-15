@@ -49,4 +49,5 @@ The OS performs several essential functions:
 | **Supercomputer Operating System**  | Cray OS, IBM AIX                      |
 | **Network Operating System**       | Cisco IOS, Junos                      |
 
+![image](https://github.com/user-attachments/assets/07ddaec4-973c-4ef3-a322-2ef013650026)
 
