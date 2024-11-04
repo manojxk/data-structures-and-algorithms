@@ -33,27 +33,35 @@ public class SortedSquaredArray {
     return squaredArray;
   }
 
-  public static int[] sortedSquaredArray(int[] array) {
-    int[] squaredArray = new int[array.length];
-    int left = 0;
-    int right = array.length - 1;
-    int index = array.length - 1;
+  
+    // Solution 1: Two Pointer Approach
+    // Time Complexity: O(n) | Space Complexity: O(n)
+    public static int[] sortedSquaredArray(int[] array) {
+        // Initialize an array to hold the squared values
+        int[] squaredArray = new int[array.length];
+        // Use two pointers, one starting from the beginning and one from the end
+        int left = 0;
+        int right = array.length - 1;
+        int index = array.length - 1;
 
-    while (left <= right) {
-      int leftSquare = array[left] * array[left];
-      int rightSquare = array[right] * array[right];
+        // Iterate until all elements have been squared and added
+        while (left <= right) {
+            int leftSquare = array[left] * array[left];
+            int rightSquare = array[right] * array[right];
 
-      if (leftSquare > rightSquare) {
-        squaredArray[index] = leftSquare;
-        left++;
-      } else {
-        squaredArray[index] = rightSquare;
-        right--;
-      }
-      index--;
+            // Place the larger square at the current index from the back
+            if (leftSquare > rightSquare) {
+                squaredArray[index] = leftSquare;
+                left++;
+            } else {
+                squaredArray[index] = rightSquare;
+                right--;
+            }
+            index--;
+        }
+
+        return squaredArray;
     }
-    return squaredArray;
-  }
 
   public static void main(String[] args) {
     int[] array = {1, 2, 3, 5, 6, 8, 9};
