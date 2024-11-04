@@ -1,41 +1,44 @@
 /*
- * Problem Statement:
- * Given two non-empty arrays of integers, write a function that determines whether the second array is a subsequence of the first one.
- *
- * A subsequence of an array is a set of numbers that aren't necessarily adjacent in the array but appear in the same order as they do in the array.
+ * Problem: Validate Subsequence
+ * Given two non-empty arrays of integers, write a function that determines if the second array is a subsequence of the first one.
+ * A subsequence of an array is a set of numbers that aren't necessarily adjacent in the array but that are in the same order as they appear in the array.
+ * For instance, the numbers `[1, 3, 4]` form a subsequence of the array `[1, 2, 3, 4]`, and so do the numbers `[2, 4]`.
+ * Note that a single number in an array and the array itself are both valid subsequences of the array.
  *
  * Example:
- * Input: array = [5, 1, 22, 25, 6, -1, 8, 10], sequence = [1, 6, -1, 10]
+ * array = [5, 1, 22, 25, 6, -1, 8, 10]
+ * sequence = [1, 6, -1, 10]
  * Output: true
- *
- * Explanation:
- * The numbers [1, 6, -1, 10] appear in the array [5, 1, 22, 25, 6, -1, 8, 10] in the same order, making it a subsequence.
  */
-
-package easy.arrays;
 
 public class ValidateSubsequence {
 
-  // Optimized Solution
-  public static boolean isSubsequence(int[] array, int[] sequence) {
-    int seqIndex = 0;
+    // Solution 1: Iterative Approach
+    // Time Complexity: O(n) | Space Complexity: O(1)
+    public static boolean isValidSubsequence(int[] array, int[] sequence) {
+        // Initialize pointers for array and sequence
+        int arrayIndex = 0;
+        int sequenceIndex = 0;
 
-    for (int num : array) {
-      if (seqIndex == sequence.length) {
-        break;
-      }
-      if (num == sequence[seqIndex]) {
-        seqIndex++;
-      }
+        // Iterate through the array until we reach the end of either array or sequence
+        while (arrayIndex < array.length && sequenceIndex < sequence.length) {
+            // If elements match, move the sequence pointer forward
+            if (array[arrayIndex] == sequence[sequenceIndex]) {
+                sequenceIndex++;
+            }
+            // Always move the array pointer forward
+            arrayIndex++;
+        }
+
+        // If sequenceIndex reached the end of the sequence, it means the sequence is valid
+        return sequenceIndex == sequence.length;
     }
-    return seqIndex == sequence.length;
-  }
 
-  public static void main(String[] args) {
-    int[] array = {5, 1, 22, 25, 6, -1, 8, 10};
-    int[] sequence = {1, 6, -1, 10};
-    System.out.println(isSubsequence(array, sequence)); // Output: true
-  }
+    public static void main(String[] args) {
+        int[] array = {5, 1, 22, 25, 6, -1, 8, 10};
+        int[] sequence = {1, 6, -1, 10};
+
+        // Testing the iterative approach
+        System.out.println("Validate Subsequence: " + isValidSubsequence(array, sequence));
+    }
 }
-/*
-O(n) time | O(1) space.*/
