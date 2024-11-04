@@ -27,38 +27,44 @@ package medium.arrays;/*
 
 public class A06LongestPeak {
 
-  // Function to find the length of the longest peak
-  public static int longestPeak(int[] array) {
-    int longestPeakLength = 0;
+// Solution: Linear Scan Approach
+    // Time Complexity: O(n) | Space Complexity: O(1)
+    public static int longestPeak(int[] array) {
+        int longestPeakLength = 0;
+        int i = 1;
 
-    // Step 1: Traverse the array starting from the second element and ending at the second-to-last element
-    for (int i = 1; i < array.length - 1; i++) {
-      // Step 2: Identify peaks (element greater than both its adjacent elements)
-      boolean isPeak = array[i] > array[i - 1] && array[i] > array[i + 1];
-      if (!isPeak) {
-        continue;  // Skip if not a peak
-      }
+        // Iterate through the array to find peaks
+        while (i < array.length - 1) {
+            // Check if current element is a peak
+            boolean isPeak = array[i - 1] < array[i] && array[i] > array[i + 1];
 
-      // Step 3: Expand left and right to find the full peak
-      int leftIdx = i - 1;
-      while (leftIdx > 0 && array[leftIdx] > array[leftIdx - 1]) {
-        leftIdx--;
-      }
+            if (!isPeak) {
+                i++;
+                continue;
+            }
 
-      int rightIdx = i + 1;
-      while (rightIdx < array.length - 1 && array[rightIdx] > array[rightIdx + 1]) {
-        rightIdx++;
-      }
+            // Expand left and right from the peak
+            int leftIdx = i - 2;
+            while (leftIdx >= 0 && array[leftIdx] < array[leftIdx + 1]) {
+                leftIdx--;
+            }
 
-      // Step 4: Calculate the length of the current peak
-      int currentPeakLength = rightIdx - leftIdx + 1;
+            int rightIdx = i + 2;
+            while (rightIdx < array.length && array[rightIdx] < array[rightIdx - 1]) {
+                rightIdx++;
+            }
 
-      // Step 5: Track the maximum length of peaks found
-      longestPeakLength = Math.max(longestPeakLength, currentPeakLength);
+            // Calculate the length of the current peak
+            int currentPeakLength = rightIdx - leftIdx - 1;
+            longestPeakLength = Math.max(longestPeakLength, currentPeakLength);
+
+            // Move to the next element after the peak
+            i = rightIdx;
+        }
+
+        return longestPeakLength;
     }
 
-    return longestPeakLength;
-  }
 
   // Main function to run and test the solution
   public static void main(String[] args) {
