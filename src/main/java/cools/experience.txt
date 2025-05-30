@@ -1,0 +1,33 @@
+Hi everyone, I recently went through the Amazon SDE-2 interview process, and I wanted to share my experience here. I hope this helps someone preparing for their interviews!
+
+Timeline
+Technical Screening: Nov 7
+
+Interviews Scheduled: Dec 12 and Dec 13 (I opted for split days for better focus).
+
+Round 1: Low-Level Design (LLD)
+This was about building a basic calculator with a focus on extensibility, allowing additional features to be added easily. The interviewer was looking for clean design principles, modularity, and scalability.
+
+Round 2: High-Level Design (HLD)
+The second round was intense! I was asked to design an Amazon Ads Server system. The discussion went on for about 1 hour and 25 minutes. It could have gone longer, but I had to pause the session as my laptop battery was dying. After this round, I really thought that I was coming closer to my dream.
+
+Round 3: Data Structure Problem
+The question was to build a tree-like data structure to represent human relationships. Initially, I found the problem a bit tricky since it wasn’t worded directly, but I eventually clarified my doubts and came up with a solution that convinced the interviewer.
+
+Round 4: Bar Raiser
+This was the most unique and unexpected round. It started with a discussion about a recent project I worked on at my current job, focusing on areas for improvement. The conversation lasted about 35 minutes and was followed by a coding question:
+
+I was asked to write logic for a library to calculate API response times and show the average response times. I thought I did pretty well in this round too.
+
+For coding, just keep solving Amazon tagged questions on Leetcode. That's pretty much enough.
+
+For low level and high level, I saw videos by Jordan Has No Life, Gaurav Sen, Concept & Coding and Hello Interview. I spend most of my time on system design because I knew this is going to be the make or break round along with the bar raiser.
+
+Apart from this, it is very important that you focus on Leadership principles. Try to include architectural work in each and every story that you're building from your past experiences because that really helped me. Your story should be from your work full-time work experiences and not from projects/internships. 
+They should sound like they are coming from someone who's worked for about 4 - 6 years and not from a junior engineer. They want someone who really worked at the design level and not just making some random improvements to the old code. 
+I spent most of my time on leadership principles and system design, and that turned out to be fruitful in the end.
+
+If you're preparing for a similar interview, be ready for anything. Make sure you can talk about your past work in detail. And don't forget to charge your laptop!
+
+Good luck!
+
