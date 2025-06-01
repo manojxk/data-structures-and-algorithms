@@ -121,13 +121,12 @@ public class KthLargestInBST {
     reverseInOrderTraversal(node.right, k);
 
     // 2) “Visit” this node
-    if (count < k) {
-      count++;
-      if (count == k) {
-        result = node.value;
-        return; // we found the k-th largest, so we can stop
-      }
+    count++;
+    if (count == k) {
+      result = node.value;
+      return; // we found the k-th largest, so we can stop
     }
+    
 
     // 3) Visit left subtree only if we still need more
     reverseInOrderTraversal(node.left, k);
