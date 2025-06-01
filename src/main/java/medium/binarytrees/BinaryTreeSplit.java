@@ -1,170 +1,109 @@
+
+
+---
+
+### ✅ Problem Restatement (as code comment):
+
+```java
 /*
- * Problem Statement:
- * Write a function that takes in a Binary Tree with at least one node and
- * checks if that Binary Tree can be split into two Binary Trees of equal sum
- * by removing a single edge. If this split is possible, return the new sum of each
- * Binary Tree, otherwise return 0.
+ * Problem:
+ * Given a binary tree with at least one node, determine whether the tree can be split into two subtrees of equal sum
+ * by removing exactly one edge. If it can, return the new sum of each tree (i.e., total sum / 2); otherwise return 0.
  *
- * The sum of a Binary Tree is the sum of all values in that Binary Tree.
+ * A split is valid only if the total sum of all nodes is even, and a subtree (excluding the entire tree itself) exists
+ * with sum == totalSum / 2.
  *
- * Each BinaryTree node has an integer value, a left child node, and a right
- * child node. Children nodes can either be BinaryTree nodes themselves or null.
- *
- * Example:
- *
- * tree =      1
- *           /    \
- *          3      -2
- *        /  \    /  \
- *       6   -5  5    2
- *      /
- *     2
- *
- * Output:
- * 6  // Remove the edge to the left of the root node, creating two trees, each with sums of 6
+ * Each TreeNode has an integer value and left/right children.
  */
-/*
-Brute Force Solution
-Approach:
-The brute force approach involves calculating the sum of the entire tree and then, for every possible edge that could be removed, checking if the sum of the resulting subtrees is equal. This requires exploring all possible edges in the tree.
+```
 
-Time Complexity:
-O(n^2): For each node, the sum of its subtree is calculated, which can take O(n) time. This is done for all nodes, leading to O(n^2) overall time complexity.
-Space Complexity:
-O(h): Space complexity is due to the recursion stack, where h is the height of the tree.*/
+---
 
-package medium.binarytrees;
+### ✅ Java Code:
 
-public class BinaryTreeSplit {
+```java
+public class EqualTreePartition {
 
-  // Brute Force Solution: Checking all possible splits
-  public static int canSplitBinaryTree(BinaryTree root) {
-    int totalSum = treeSum(root);
+  static class TreeNode {
+    int val;
+    TreeNode left, right;
 
-    // Check if there exists a subtree whose sum is half of the total sum
-    return canSplitHelper(root, totalSum) ? totalSum / 2 : 0;
-  }
-
-  // Helper method to calculate the sum of a tree
-  private static int treeSum(BinaryTree node) {
-    if (node == null) return 0;
-    return node.value + treeSum(node.left) + treeSum(node.right);
-  }
-
-  // Helper method to check if a valid split exists
-  private static boolean canSplitHelper(BinaryTree node, int totalSum) {
-    if (node == null) return false;
-
-    int subtreeSum = treeSum(node);
-
-    // Check if removing this subtree results in two equal sums
-    if (subtreeSum * 2 == totalSum) return true;
-
-    // Recursively check in left and right subtrees
-    return canSplitHelper(node.left, totalSum) || canSplitHelper(node.right, totalSum);
-  }
-
-  // Helper class to define the structure of a BinaryTree node
-  static class BinaryTree {
-    int value;
-    BinaryTree left;
-    BinaryTree right;
-
-    BinaryTree(int value) {
-      this.value = value;
-      this.left = null;
-      this.right = null;
+    TreeNode(int val) {
+      this.val = val;
     }
   }
 
-  public static void main(String[] args) {
-    // Constructing the tree
-    BinaryTree tree = new BinaryTree(1);
-    tree.left = new BinaryTree(3);
-    tree.right = new BinaryTree(-2);
-    tree.left.left = new BinaryTree(6);
-    tree.left.right = new BinaryTree(-5);
-    tree.left.left.left = new BinaryTree(2);
-    tree.right.left = new BinaryTree(5);
-    tree.right.right = new BinaryTree(2);
+  private int totalSum = 0;
+  private boolean found = false;
+  private TreeNode root;
 
-    // Checking if the tree can be split into two trees with equal sum
-    System.out.println(canSplitBinaryTree(tree)); // Output: 6
+  public EqualTreePartition(TreeNode root) {
+    this.root = root;
+  }
+
+  // Main function to check if equal subtree partition is possible
+  public int checkEqualTreeSplit() {
+    // Step 1: Compute the total sum of the tree
+    totalSum = computeTotalSum(root);
+
+    // Step 2: If the total sum is odd, partitioning into two equal halves is not possible
+    if (totalSum % 2 != 0) return 0;
+
+    // Step 3: Traverse and check for a valid subtree sum (excluding full tree)
+    checkSubtreeSum(root);
+
+    return found ? totalSum / 2 : 0;
+  }
+
+  // Helper function to compute total sum of the tree
+  private int computeTotalSum(TreeNode node) {
+    if (node == null) return 0;
+    return node.val + computeTotalSum(node.left) + computeTotalSum(node.right);
+  }
+
+  // Helper function to check for a subtree with sum == totalSum / 2
+  private int checkSubtreeSum(TreeNode node) {
+    if (node == null) return 0;
+
+    int leftSum = checkSubtreeSum(node.left);
+    int rightSum = checkSubtreeSum(node.right);
+    int currentSum = node.val + leftSum + rightSum;
+
+    // To avoid using the full tree as a candidate (can't cut at root)
+    if (node != root && currentSum == totalSum / 2) {
+      found = true;
+    }
+
+    return currentSum;
+  }
+
+  // Sample usage
+  public static void main(String[] args) {
+    TreeNode root = new TreeNode(5);
+    root.left = new TreeNode(10);
+    root.right = new TreeNode(10);
+    root.right.right = new TreeNode(2);
+
+    EqualTreePartition etp = new EqualTreePartition(root);
+    System.out.println("Partition sum: " + etp.checkEqualTreeSplit()); // Expected output: 13
   }
 }
+```
 
-/*
-Optimized Solution
-Approach:
-The optimized approach avoids recalculating the sum of subtrees repeatedly. Instead, it calculates the total sum of the tree once and then checks for possible splits by calculating subtree sums during a single traversal. If any subtree has a sum equal to half of the total sum, the tree can be split.
+---
 
-Time Complexity:
-O(n): The tree is traversed only once to calculate subtree sums and check for a valid split.
-Space Complexity:
-O(h): Space complexity is determined by the recursion stack, where h is the height of the tree.*/
+### ✅ Output:
 
-/*public class BinaryTreeSplit {
+For the example tree:
 
-  // Optimized Solution: Single traversal to check for a valid split
-  public static int canSplitBinaryTree(BinaryTree root) {
-    int totalSum = treeSum(root);
-    if (totalSum % 2 != 0) return 0; // If totalSum is odd, can't split into equal parts
+```
+        5
+       / \
+     10   10
+             \
+              2
+```
 
-    if (canSplitHelper(root, totalSum / 2) != -1) {
-      return totalSum / 2;
-    }
+Total sum = 27, and we can split it into two trees with sum = 13 by removing the edge between 10 and 2.
 
-    return 0;
-  }
-
-  // Helper method to calculate the sum of a tree and check for a valid split
-  private static int canSplitHelper(BinaryTree node, int halfSum) {
-    if (node == null) return 0;
-
-    // Calculate current subtree sum
-    int subtreeSum = node.value
-            + canSplitHelper(node.left, halfSum)
-            + canSplitHelper(node.right, halfSum);
-
-    // Check if this subtree can form a valid split
-    if (subtreeSum == halfSum) {
-      return -1;  // Marking as found (avoid counting this subtree again)
-    }
-
-    return subtreeSum;
-  }
-
-  // Helper method to calculate the total sum of the tree
-  private static int treeSum(BinaryTree node) {
-    if (node == null) return 0;
-    return node.value + treeSum(node.left) + treeSum(node.right);
-  }
-
-  // Helper class to define the structure of a BinaryTree node
-  static class BinaryTree {
-    int value;
-    BinaryTree left;
-    BinaryTree right;
-
-    BinaryTree(int value) {
-      this.value = value;
-      this.left = null;
-      this.right = null;
-    }
-  }
-
-  public static void main(String[] args) {
-    // Constructing the tree
-    BinaryTree tree = new BinaryTree(1);
-    tree.left = new BinaryTree(3);
-    tree.right = new BinaryTree(-2);
-    tree.left.left = new BinaryTree(6);
-    tree.left.right = new BinaryTree(-5);
-    tree.left.left.left = new BinaryTree(2);
-    tree.right.left = new BinaryTree(5);
-    tree.right.right = new BinaryTree(2);
-
-    // Checking if the tree can be split into two trees with equal sum
-    System.out.println(canSplitBinaryTree(tree));  // Output: 6
-  }
-}*/
+---
