@@ -1,64 +1,60 @@
-**Problem Explanation**
-The **Levenshtein distance** (or “edit distance”) between two strings is the minimum number of single‐character edit operations (insertions, deletions, or substitutions) required to transform the first string into the second.
-
-* **Insertion**: add one character anywhere in the first string.
-* **Deletion**: remove one character from the first string.
-* **Substitution**: replace one character in the first string with a different character.
-
-For example, to turn `"abc"` into `"yabd"`:
-
-1. **Insert** `'y'` at the front → `"yabc"`.
-2. **Substitute** the last character `'c'` with `'d'` → `"yabd"`.
-
-That took **2** operations, so the edit distance is 2.
+**Problem Statement**
+Given two strings `s1` and `s2`, compute the **Levenshtein distance** (edit distance) between them—that is, the minimum number of single‐character insertions, deletions, or substitutions required to transform `s1` into `s2`.
 
 ---
 
-## Dynamic‐Programming (Bottom‐Up) Solution
+## 1. Bottom-Up DP (Full 2D Table)
 
-A classic way to compute this is with a 2D DP table `dp[i][j]` where:
+```java
+package cools.dp.multidimensional;
 
-* `dp[i][j]` = the minimum edit distance between the prefixes `s1[0..i-1]` and `s2[0..j-1]`.
-* Here `i` ranges from `0` to `m = s1.length()`, and `j` from `0` to `n = s2.length()`.
+public class EditDistanceBottomUp {
+  /**
+   * Time:  O(m × n)
+   * Space: O(m × n)
+   */
+  public static int editDist(String s1, String s2) {
+    int m = s1.length();
+    int n = s2.length();
+    int[][] dp = new int[m + 1][n + 1];
 
-### Key Recurrence
+    // Base cases
+    for (int i = 0; i <= m; i++) {
+      dp[i][0] = i;       // delete all i chars from s1 to match ""
+    }
+    for (int j = 0; j <= n; j++) {
+      dp[0][j] = j;       // insert all j chars into "" to match s2
+    }
 
-1. **Base Cases**
+    for (int i = 1; i <= m; i++) {
+      for (int j = 1; j <= n; j++) {
+        if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+          dp[i][j] = dp[i - 1][j - 1];
+        } else {
+          int insertCost  = dp[i][j - 1] + 1;      // insert s2[j-1]
+          int deleteCost  = dp[i - 1][j] + 1;      // delete s1[i-1]
+          int replaceCost = dp[i - 1][j - 1] + 1;  // replace s1[i-1] with s2[j-1]
+          dp[i][j] = Math.min(insertCost,
+                       Math.min(deleteCost, replaceCost));
+        }
+      }
+    }
+    return dp[m][n];
+  }
 
-   * `dp[0][j] = j`:  transforming an empty prefix of `s1` (`""`) into the prefix `s2[0..j-1]` requires exactly `j` insertions.
-   * `dp[i][0] = i`:  transforming the prefix `s1[0..i-1]` into an empty string requires exactly `i` deletions.
+  public static void main(String[] args) {
+    System.out.println(editDist("abc", "yabd"));            // 2
+    System.out.println(editDist("GEEXSFRGEEKKS", "GEEKSFORGEEKS")); // 3
+  }
+}
+```
 
-2. **Transition** (for `i ≥ 1, j ≥ 1`):
-
-   * If `s1.charAt(i−1) == s2.charAt(j−1)`, then no new operation is needed for the last character, and
-
-     ```
-     dp[i][j] = dp[i−1][j−1]
-     ```
-   * Otherwise, we consider the three possible operations:
-
-     1. **Insert**: Insert `s2[j−1]` into `s1[0..i−1]`, so we pay 1 operation plus whatever it took to match `s1[0..i-1]` with `s2[0..j-2]`.
-        → cost = `1 + dp[i][j−1]`
-     2. **Delete**: Delete `s1[i−1]`, so we pay 1 operation plus whatever it took to match `s1[0..i-2]` to `s2[0..j-1]`.
-        → cost = `1 + dp[i−1][j]`
-     3. **Replace**: Replace `s1[i−1]` with `s2[j−1]`, so we pay 1 plus whatever it took to match `s1[0..i-2]` to `s2[0..j-2]`.
-        → cost = `1 + dp[i−1][j−1]`
-
-   Hence if the characters differ:
-
-   ```
-   dp[i][j] = 1 + min(
-       dp[i][j−1],   // insert
-       dp[i−1][j],   // delete
-       dp[i−1][j−1]  // replace
-   )
-   ```
-
-After filling in this table row by row (or column by column), the answer is `dp[m][n]`.
+* **Time Complexity:** O(m × n)
+* **Space Complexity:** O(m × n)
 
 ---
 
-## Java Implementation
+## 2. Recursive + Memoization (Top-Down)
 
 ```java
 package cools.dp.multidimensional;
@@ -66,126 +62,67 @@ package cools.dp.multidimensional;
 import java.util.Arrays;
 
 public class EditDistance {
+  // Recursive function to calculate minimum edit distance
+  public static int editDistRec(String s1, String s2, int m, int n, int[][] memo) {
+    // Base Case: If the first string is empty, we need to insert all characters of s2
+    if (m == 0) return n;
 
-  /**
-   * Returns the Levenshtein edit distance between s1 and s2:
-   * the minimum number of insertions, deletions, or substitutions
-   * needed to transform s1 into s2.
-   *
-   * Time Complexity:  O(m * n)
-   *   where m = s1.length(), n = s2.length()
-   * Space Complexity: O(m * n)
-   *   for the DP table of size (m+1) x (n+1)
-   */
-  public static int editDist(String s1, String s2) {
-    int m = s1.length();
-    int n = s2.length();
+    // Base Case: If the second string is empty, we need to remove all characters of s1
+    if (n == 0) return m;
+    if (memo[m][n] != -1) return memo[m][n];
 
-    // dp[i][j] = edit distance between s1[0..i-1] and s2[0..j-1]
-    int[][] dp = new int[m + 1][n + 1];
-
-    // 1) Base cases:
-    //    dp[i][0] = i  (delete all i characters)
-    //    dp[0][j] = j  (insert all j characters)
-    for (int i = 0; i <= m; i++) {
-      dp[i][0] = i;
-    }
-    for (int j = 0; j <= n; j++) {
-      dp[0][j] = j;
+    // If the last characters of both strings match, no operation is needed
+    if (s1.charAt(m - 1) == s2.charAt(n - 1)) {
+      return memo[m][n] = editDistRec(s1, s2, m - 1, n - 1, memo);
     }
 
-    // 2) Fill table for i=1..m, j=1..n
-    for (int i = 1; i <= m; i++) {
-      for (int j = 1; j <= n; j++) {
-        if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
-          // No new operation needed for the last character
-          dp[i][j] = dp[i - 1][j - 1];
-        } else {
-          // Consider insert, delete, replace
-          int insertCost = dp[i][j - 1] + 1;    // insert s2[j-1]
-          int deleteCost = dp[i - 1][j] + 1;    // delete s1[i-1]
-          int replaceCost = dp[i - 1][j - 1] + 1; // replace s1[i-1] with s2[j-1]
-          dp[i][j] = Math.min(insertCost,
-                      Math.min(deleteCost, replaceCost));
-        }
-      }
-    }
-
-    // The answer is in dp[m][n]
-    return dp[m][n];
+    return memo[m][n] =
+        1
+            + Math.min(
+                Math.min(
+                    editDistRec(s1, s2, m, n - 1, memo), // Insert
+                    editDistRec(s1, s2, m - 1, n, memo)), // Remove
+                editDistRec(s1, s2, m - 1, n - 1, memo)); // Replace
   }
 
-  public static void main(String[] args) {
-    // Example from the prompt
-    String str1 = "abc";
-    String str2 = "yabd";
-    int distance = editDist(str1, str2);
-    System.out.println(distance);
-    // Expected output: 2 
-    // ("abc" → insert 'y' → "yabc" → replace 'c' with 'd' → "yabd")
+  // Wrapper function to initiate the recursive calculation for the entire strings
+  public static int editDist(String s1, String s2) {
+    // Initialize the memoization table with -1 (indicating uncomputed subproblems)
+    int[][] memo = new int[s1.length() + 1][s2.length() + 1];
+    for (int[] row : memo) {
+      Arrays.fill(row, -1);
+    }
 
-    // Another sample test
+    return editDistRec(s1, s2, s1.length(), s2.length(), memo);
+  }
+
+  // Main function to test the solution
+  public static void main(String[] args) {
     String s1 = "GEEXSFRGEEKKS";
     String s2 = "GEEKSFORGEEKS";
-    System.out.println(editDist(s1, s2)); 
-    // Expected output: 3 (for example, substitute, insert, delete as needed)
+
+    // Print the minimum edit distance
+    System.out.println(editDist(s1, s2)); // Output: 3
   }
+
+
 }
 ```
 
-### How the DP Table Works (Example: `"abc"` → `"yabd"`)
-
-1. `m = 3` (`"abc"`), `n = 4` (`"yabd"`).
-2. We create a 4×5 table (indices 0..3 and 0..4):
-
-```
-     ""   y    a    b    d
-""   0    1    2    3    4
-a    1    ?    ?    ?    ?
-b    2    ?    ?    ?    ?
-c    3    ?    ?    ?    ?
-```
-
-3. Fill row by row:
-
-* For `i=1, j=1`: compare `'a'` vs `'y'` → different;
-
-  ```
-  insert  = dp[1][0] + 1 = 1 + 1 = 2
-  delete  = dp[0][1] + 1 = 1 + 1 = 2
-  replace = dp[0][0] + 1 = 0 + 1 = 1
-  dp[1][1] = 1
-  ```
-
-  (That corresponds to “replace `'a'` → `'y'`”.)
-
-* For `i=1, j=2`: compare `'a'` vs `'a'` → same; `dp[1][2] = dp[0][1] = 1`.
-
-* And so on…
-
-Filling the entire table yields:
-
-```
-     ""   y    a    b    d
-""   0    1    2    3    4
- a   1    1    1    2    3
- b   2    2    2    1    2
- c   3    3    3    2    2
-```
-
-* Look at `dp[3][4]` (row `i=3`, column `j=4`) → `2`. That is the final edit distance.
+* **Time Complexity:** O(m × n) (each `(i, j)` computed once)
+* **Space Complexity:** O(m × n) for `memo[][]` plus O(m + n) for the recursion stack
 
 ---
 
-## Time & Space Complexity
+### Summary of Complexities
 
-* **Time Complexity:**
-  We fill an $(m + 1) \times (n + 1)$ table, and each cell takes $O(1)$ time to compute. So it is **O(m × n)**.
+| Approach                              | Time     | Space                     |
+| ------------------------------------- | -------- | ------------------------- |
+| 1. Bottom-Up (full table)             | O(m × n) | O(m × n)                  |
+| 2. Recursive + Memoization (top-down) | O(m × n) | O(m × n) + O(m + n) stack |
 
-* **Space Complexity:**
-  We store an integer table of size $(m + 1) \times (n + 1)$ → **O(m × n)**.
-  (If needed, you can even reduce it to **O(min(m,n))** by only keeping two rows at a time, but the above straightforward version is easiest to understand.)
+Choose whichever fits your constraints best:
 
----
-
-This bottom‐up DP approach is the standard way to compute Levenshtein (edit) distance efficiently—even for strings of length several thousands, it finishes quickly as long as $m \times n$ isn’t astronomically large.
+* If clarity matters more than memory, use approach 1.
+* If you need to handle very large strings without O(m × n) memory, use approach 2.
+* If you prefer a recursive style, use approach 3.
