@@ -1,86 +1,168 @@
-package medium.arrays;/*
- Problem: Monotonic Array
+**Problem Restatement**
+An array of integers is **monotonic** if it is either entirely:
 
- An array is monotonic if it is either entirely non-increasing or entirely non-decreasing.
+* **Non-decreasing** (each element is ≥ the one before), or
+* **Non-increasing** (each element is ≤ the one before).
 
- Given an array of integers, return true if the array is monotonic, or false otherwise.
+Given an integer array, determine whether it is monotonic. Return `true` if it is, or `false` otherwise.
 
- Example 1:
+---
 
- Input: [1, 2, 2, 3]
- Output: true
+## Key Insight
 
- Explanation:
- The array is non-decreasing (monotonic).
+You only need to check **one full pass** of the array to see if it ever “goes downhill” (violating non-decreasing) or “goes uphill” (violating non-increasing). If **neither** pattern is violated, the array is monotonic. Concretely:
 
- Example 2:
+1. Initialize two flags:
 
- Input: [6, 5, 4, 4]
- Output: true
+   * `isNonDecreasing = true`
+   * `isNonIncreasing = true`
+2. Loop through each adjacent pair `(array[i-1], array[i])` for `i = 1 … n-1`:
 
- Explanation:
- The array is non-increasing (monotonic).
+   * If `array[i] < array[i-1]`, then it **cannot** be non-decreasing → set `isNonDecreasing = false`.
+   * If `array[i] > array[i-1]`, then it **cannot** be non-increasing → set `isNonIncreasing = false`.
+3. After the loop, if **either** `isNonDecreasing` **or** `isNonIncreasing` remains `true`, the array is monotonic.
 
- Example 3:
+Because we check both conditions in one pass, the time complexity is **O(n)** and we only use a couple of boolean variables → **O(1)** extra space.
 
- Input: [1, 3, 2]
- Output: false
+---
 
- Explanation:
- The array is neither non-increasing nor non-decreasing.
-*/
+## Step-by-Step Walkthrough
 
-/*
- Solution Steps:
+1. **Edge Case**
 
- 1. Check whether the array is either non-increasing or non-decreasing.
- 2. Traverse the array once to check if it is non-decreasing:
-    a) For each element, if the next element is smaller than the current element, mark it as not non-decreasing.
- 3. Traverse the array once to check if it is non-increasing:
-    a) For each element, if the next element is larger than the current element, mark it as not non-increasing.
- 4. Return true if the array is either non-decreasing or non-increasing, otherwise return false.
-*/
+   * If the array has length `0` or `1`, it’s trivially monotonic. You can return `true` immediately.
+
+2. **Initialize Flags**
+
+   ```java
+   boolean isNonDecreasing = true;
+   boolean isNonIncreasing = true;
+   ```
+
+3. **Single Pass Check**
+
+   ```java
+   for (int i = 1; i < array.length; i++) {
+     if (array[i] < array[i - 1]) {
+       isNonDecreasing = false;  // There's a “downward” violation
+     }
+     if (array[i] > array[i - 1]) {
+       isNonIncreasing = false;  // There's an “upward” violation
+     }
+   }
+   ```
+
+   * Whenever you see `array[i] < array[i - 1]`, you know the array cannot be entirely non-decreasing.
+   * Whenever you see `array[i] > array[i - 1]`, you know the array cannot be entirely non-increasing.
+
+4. **Return the Result**
+
+   ```java
+   return isNonDecreasing || isNonIncreasing;
+   ```
+
+   If at least one of the two possible monotonic “directions” still holds, you’ve confirmed the array is monotonic.
+
+---
+
+## Complete Java Code
+
+```java
+package medium.arrays;
 
 public class A04MonotonicArray {
 
-  // Function to check if the array is monotonic
   public static boolean isMonotonic(int[] array) {
-    if (array.length <= 1) return true;  // Edge case: single element or empty array
+    // Edge case: length 0 or 1 is automatically monotonic
+    if (array.length <= 1) return true;
 
-    boolean isNonDecreasing = true;  // Flag to check non-decreasing property
-    boolean isNonIncreasing = true;  // Flag to check non-increasing property
+    boolean isNonDecreasing = true;
+    boolean isNonIncreasing = true;
 
-    // Step 1: Traverse the array to check both conditions
+    // Check adjacent pairs once
     for (int i = 1; i < array.length; i++) {
       if (array[i] < array[i - 1]) {
-        isNonDecreasing = false;  // It's not non-decreasing
+        isNonDecreasing = false;  // Violation of non-decreasing
       }
       if (array[i] > array[i - 1]) {
-        isNonIncreasing = false;  // It's not non-increasing
+        isNonIncreasing = false;  // Violation of non-increasing
       }
     }
 
-    // Step 2: Return true if it's either non-decreasing or non-increasing
+    // Array is monotonic if it never violated at least one pattern
     return isNonDecreasing || isNonIncreasing;
   }
 
-  // Main function to run and test the solution
   public static void main(String[] args) {
     int[] array1 = {1, 2, 2, 3};
-    System.out.println("Is monotonic: " + isMonotonic(array1));  // Output: true
+    System.out.println(isMonotonic(array1));  // true
 
     int[] array2 = {6, 5, 4, 4};
-    System.out.println("Is monotonic: " + isMonotonic(array2));  // Output: true
+    System.out.println(isMonotonic(array2));  // true
 
     int[] array3 = {1, 3, 2};
-    System.out.println("Is monotonic: " + isMonotonic(array3));  // Output: false
+    System.out.println(isMonotonic(array3));  // false
+  }
+}
+import java.util.*;
+
+class Program {
+  public static boolean isMonotonic(int[] array) {
+    if (array == null || array.length <= 1) {
+      return true;  // Empty or single-element arrays are monotonic
+    }
+
+    boolean seenIncrease = false;
+    boolean seenDecrease = false;
+
+    for (int i = 0; i < array.length - 1; i++) {
+      if (array[i] < array[i + 1]) {
+        seenIncrease = true;
+      } else if (array[i] > array[i + 1]) {
+        seenDecrease = true;
+      }
+      // If both trends appear, it’s not monotonic
+      if (seenIncrease && seenDecrease) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
-    /*
-     Time Complexity:
-     - O(n), where n is the number of elements in the array. We traverse the array once to check the monotonic property.
+  // Main function to test the isMonotonic method
+  public static void main(String[] args) {
+    int[] array1 = {1, 2, 2, 3};
+    System.out.println("Is monotonic: " + isMonotonic(array1)); // Output: true
 
-     Space Complexity:
-     - O(1), since we only use a few extra variables to track the properties.
-    */
+    int[] array2 = {5, 4, 4, 3, 1};
+    System.out.println("Is monotonic: " + isMonotonic(array2)); // Output: true
+
+    int[] array3 = {1, 3, 2};
+    System.out.println("Is monotonic: " + isMonotonic(array3)); // Output: false
+
+    int[] array4 = {1, 1, 1, 1, 1};
+    System.out.println("Is monotonic: " + isMonotonic(array4)); // Output: true
+  }
 }
+
+
+
+
+
+
+```
+
+---
+
+## Complexity Analysis
+
+* **Time Complexity:**
+  You traverse the array exactly once (checking each adjacent pair), so **O(n)** where n = `array.length`.
+
+* **Space Complexity:**
+  Only two boolean flags and a few loop variables are used, so **O(1)** extra space.
+
+---
+
+This one-pass approach efficiently determines monotonicity by simultaneously tracking both “never decreasing” and “never increasing” conditions.
