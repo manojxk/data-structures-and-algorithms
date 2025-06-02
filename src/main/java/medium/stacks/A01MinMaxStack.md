@@ -262,3 +262,126 @@ public class A01MinMaxStack {
   * We use three stacks of the same size in the worst case. If the main `stack` has $n$ elements, then `minStack` and `maxStack` each also have $n$ elements, so total extra space is $O(n)$. In big‐O terms, that is still linear space, but each method call itself uses only $O(1)$ additional work.
 
 All operations run in **amortized constant time** and maintain **constant additional work** per operation, fulfilling the requirement of a MinMaxStack with $O(1)$ time per operation and $O(n)$ total auxiliary space.
+
+
+
+This implementation uses a clever encoding to store the minimum‐tracking information in a single stack of `long` values, thereby achieving $O(1)$ time and $O(1)$ extra space per operation:
+
+1. **When pushing a new value `val`:**
+
+   * If the stack is empty, simply push `val` and set `minElement = val`.
+   * Otherwise:
+
+     * If `val >= minElement`, push `val` normally.
+     * If `val < minElement`, push the encoded value `2*val – minElement`, and then update `minElement = val`.
+       This encoding ensures that whenever you see a stack entry `< minElement`, it signals “I am the special marker for a new minimum.”
+
+2. **When popping:**
+
+   * Pop the top entry into `top`.
+   * If `top >= minElement`, it was a regular value—no min‐rollback needed.
+   * If `top < minElement`, that entry was an encoded marker. Recover the previous minimum by
+
+     $$
+       \text{previousMin} = 2\times(\text{currentMin}) \;-\; (\text{encodedValue}).
+     $$
+
+     Then set `minElement = previousMin`.
+
+3. **When reading the top:**
+
+   * If `stack.peek() >= minElement`, return it directly.
+   * Otherwise (it’s an encoded marker), return `minElement` itself.
+
+4. **When requesting `getMin()`:**
+   Simply return `minElement`, which is always the current minimum in $O(1)$ time.
+
+All stack entries are stored as `long` to prevent overflow when computing `2*val – minElement`. Each operation (`push`, `pop`, `top`, `getMin`) runs in constant time and uses only a single `long`-stack plus one `long` variable for `minElement`.
+
+```java
+import java.util.Stack;
+
+class MinStack {
+    private Stack<Long> stack;   // stores either raw values or encoded markers
+    private long minElement;     // always holds the current minimum
+
+    /** Initialize the MinStack object. */
+    public MinStack() {
+        stack = new Stack<>();
+    }
+
+    /**
+     * Pushes a new value onto the stack (O(1)).
+     * If val is the new minimum, push an encoded marker instead and update minElement.
+     */
+    public void push(int val) {
+        if (stack.isEmpty()) {
+            // First element; it is trivially the minimum.
+            stack.push((long) val);
+            minElement = val;
+        } else {
+            if (val >= minElement) {
+                // No change to minimum; push val directly.
+                stack.push((long) val);
+            } else {
+                // val < minElement ⇒ encode and push marker
+                long encoded = 2L * val - minElement;
+                stack.push(encoded);
+                minElement = val;
+            }
+        }
+    }
+
+    /**
+     * Removes the top element from the stack (O(1)).
+     * If the popped value is an encoded marker (< minElement), restore the previous minimum.
+     */
+    public void pop() {
+        if (stack.isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        long top = stack.pop();
+        if (top < minElement) {
+            // We popped an encoded marker. Recover the old min:
+            minElement = 2L * minElement - top;
+        }
+        // Otherwise, it was a normal value—minElement stays the same.
+    }
+
+    /**
+     * Returns the top element of the stack without removing it (O(1)).
+     * If the top is an encoded marker, return minElement instead.
+     */
+    public int top() {
+        if (stack.isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        long top = stack.peek();
+        if (top < minElement) {
+            // Encoded marker ⇒ actual top = minElement
+            return (int) minElement;
+        } else {
+            return (int) top;
+        }
+    }
+
+    /**
+     * Retrieves the current minimum element in the stack (O(1)).
+     */
+    public int getMin() {
+        if (stack.isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        return (int) minElement;
+    }
+}
+```
+
+**Key Points:**
+
+* By encoding `2*val – minElement` whenever a new minimum arrives, you store all the information needed to “roll back” to the previous minimum after a pop.
+* Whenever you see a stack entry `< minElement`, it must be an encoded marker rather than a “real” value.
+* All operations maintain $O(1)$ time. The only extra space per element is one `long` in the stack.
+
+This completes a correct, constant‐time, constant‐extra‐space MinStack using a single stack plus a rolling `minElement`.
+
