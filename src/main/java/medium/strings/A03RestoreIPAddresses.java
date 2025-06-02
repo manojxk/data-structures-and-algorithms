@@ -52,6 +52,14 @@ public class A03RestoreIPAddresses {
   public static List<String> restoreIpAddresses(String s) {
     List<String> result = new ArrayList<>();
     String ans;
+    int n = s.length();
+
+    // We need exactly four segments, each length between 1 and 3.
+    // So the total length must satisfy 4 <= n <= 12. If not, no valid IPs.
+    if (n < 4 || n > 12) {
+      return result;
+    }
+
 
     // Looping through each segment's possible length (1 to 3 characters)
     for (int a = 1; a <= 3; a++) {
