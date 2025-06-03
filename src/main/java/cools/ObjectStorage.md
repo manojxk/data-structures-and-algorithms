@@ -1,3 +1,4 @@
+https://chatgpt.com/c/683ed8df-1a14-800d-a8d6-1da3674a0b8a
 Here’s a **system design interview-style answer** that explains **how a CDN and the S3-like URL (`https://mybucket.s3.amazonaws.com/path/to/photo.jpg`) work together** in an **object storage architecture**—with focus on **performance, security, scalability**, and **reliability**.
 
 ---
