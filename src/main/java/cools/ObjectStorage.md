@@ -484,3 +484,17 @@ Browser → DNS → IP → TCP/QUIC handshake → HTTP/gRPC → Load Balancer �
 
 Would you like a **flowchart** or **slide graphic** summarizing this workflow visually?
 
+
+![image](https://github.com/user-attachments/assets/61d95cfc-452b-4cfe-80ad-32c79a4643d8)
+![image](https://github.com/user-attachments/assets/5b5fc3fa-9149-4fee-96ad-2cb983871948)
+![image](https://github.com/user-attachments/assets/a139a2d0-00e3-42f2-9442-a87a9c9b7304)
+![image](https://github.com/user-attachments/assets/e15cb94f-46a7-4e18-8a94-f5c223d0caa1)
+![image](https://github.com/user-attachments/assets/a5f47fae-2030-45bc-becb-fb31a9a49cd4)
+![image](https://github.com/user-attachments/assets/dcccc390-eea2-4607-aa84-2a58b7763a94)
+
+
+
+
+
+
+
