@@ -492,6 +492,121 @@ Would you like a **flowchart** or **slide graphic** summarizing this workflow vi
 ![image](https://github.com/user-attachments/assets/a5f47fae-2030-45bc-becb-fb31a9a49cd4)
 ![image](https://github.com/user-attachments/assets/dcccc390-eea2-4607-aa84-2a58b7763a94)
 
+![image](https://github.com/user-attachments/assets/1f07f068-f2ef-458a-a55b-0dab00894940
+![image](https://github.com/user-attachments/assets/ba056f1a-6a56-4a0c-b9cb-3d3be3605428)
+![image](https://github.com/user-attachments/assets/08e6e30b-97c0-4c99-a207-1b7555f87b89)
+![image](https://github.com/user-attachments/assets/5cbde578-da4d-41c0-914b-09a16932af5a)
+![image](https://github.com/user-attachments/assets/0bc4880f-d682-419c-a906-45b87e1d871e)
+
+![image](https://github.com/user-attachments/assets/59afd22a-84d3-4b52-acc3-3bba109368f6)
+
+
+This image illustrates the core concepts of **latency, throughput, and performance**—critical pillars in **system design interviews**. Let me explain these with **real-world analogies** and connect them into a **workflow you can narrate** confidently in any interview:
+
+---
+
+## 📖 **Story Format: Understanding Latency, Throughput & Performance**
+
+---
+
+### 🎬 Scene 1: A Day in the Life of a Request
+
+Imagine you’re using an app like **Slack**. You send a message to your teammate.
+
+---
+
+### ⏱️ **Latency** – “How long does it take?”
+
+> **Definition**: The time taken for one request to travel from source to destination and back (round trip).
+
+#### 💡 Real World Analogy:
+
+* Think of latency like the **ping time** in online gaming or how long it takes for a **doorbell ring to reach your ears**.
+
+#### 🔢 Hardware Perspective (Top Half of Image):
+
+| Component | Latency    | Example Use Case                    |
+| --------- | ---------- | ----------------------------------- |
+| **RAM**   | \~100 ns   | CPU fetching variables (super fast) |
+| **SSD**   | 0.1–0.2 ms | Reading cached files or logs        |
+| **HDD**   | 1–2 ms     | Accessing archived media            |
+
+---
+
+### 🌐 Network Latency (Bottom Half of Image):
+
+* **Same Region Communication**: \~1–10 ms (e.g., AWS Mumbai → AWS Mumbai)
+* **Cross Region Communication**: \~50 ms (e.g., AWS Mumbai → AWS Frankfurt)
+
+💡 **Example**: Slack optimizes for same-region message routing to reduce latency, ensuring real-time feel.
+
+---
+
+### 📦 **Throughput** – “How much can we handle per second?”
+
+> **Definition**: The number of requests (or amount of data) a system can process per unit time.
+
+#### 🛤️ Analogy:
+
+* Latency is how fast **one train** gets from A to B.
+* Throughput is how many **trains per minute** you can send.
+
+#### 💡 Example:
+
+* A gRPC microservice with **low latency** but **low throughput** may be fast for one user, but choke when 10,000 users connect simultaneously.
+* A Kafka topic with **high throughput** can stream gigabytes of logs per second.
+
+---
+
+### 🔁 **Performance** = Latency + Throughput
+
+> **Performance** is not just about how fast one request is—it’s about how fast and **how many** requests the system handles **under load**.
+
+💡 Example:
+
+* For a file upload system:
+
+  * **Latency** matters for UX (how fast the upload begins).
+  * **Throughput** matters for backend capacity (how many uploads can happen in parallel).
+
+---
+
+## 🧠 **How to Use in Interviews**
+
+### 🔹 Describe Tradeoffs:
+
+> "If my app frequently talks to a database across regions, I’d reduce latency by replicating data closer to the service—avoiding 50 ms cross-region hops."
+
+### 🔹 Justify Storage Design:
+
+> "I’d store hot data in RAM or SSD-backed caches (Redis), and cold logs on HDD-based object storage."
+
+### 🔹 Optimize by Need:
+
+* **Low latency critical?** → Use RAM caching, colocated services.
+* **High throughput needed?** → Use Kafka, batching, multithreading.
+
+---
+
+## 🧩 Recap: Quick Bullet Points
+
+| Concept     | Key Idea            | System Design Tip                              |
+| ----------- | ------------------- | ---------------------------------------------- |
+| Latency     | Time per request    | Avoid cross-region calls                       |
+| Throughput  | Requests per second | Parallelism, batching, efficient serialization |
+| Performance | Combination of both | Tune based on user load and SLA targets        |
+
+---
+
+Let me know if you want this turned into a **1-slide visual summary** or **cheat sheet for interviews**!
+
+
+
+
+
+
+
+
 
 
 
