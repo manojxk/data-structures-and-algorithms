@@ -122,3 +122,7 @@ https://mybucket.s3.amazonaws.com/path/to/photo.jpg
 ---
 
 Let me know if you want this turned into a **diagram or 1-slide whiteboard-style summary** for interviews.
+
+
+![image](https://github.com/user-attachments/assets/af15ad1b-d07d-4cb6-8d0c-073d760d02d5)
+
