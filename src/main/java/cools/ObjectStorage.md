@@ -1205,6 +1205,105 @@ Evan is browsing SnapCart on his phone from Bangalore. He clicks a trending prod
 Let me know if you'd like a visual **comparison between CDN vs Blob Storage latency and bandwidth usage**, or a **signed URL upload flow** explanation!
 
 
+Here's a **system design interview-style summary** of **API Gateways**, based on your video outline timestamps:
+
+---
+
+## 🎬 **API Gateway – System Design Summary**
+
+---
+
+### ⏳ **00:00 – History**
+
+* **Before Microservices**:
+  Monoliths handled everything—single point of entry, single codebase.
+
+* **Then Microservices Rose**:
+  Apps became a collection of small, independently deployable services:
+
+  * User Service
+  * Auth Service
+  * Product Service
+  * Billing Service
+
+* **Problem**:
+  Clients had to manage:
+
+  * Multiple endpoints
+  * Authentication across services
+  * Inconsistent APIs
+    → This made frontend/backend integration **complex and fragile**.
+
+---
+
+### 🧭 **02:52 – What an API Gateway Does**
+
+An **API Gateway** acts as a **single entry point** for all client interactions with your backend services.
+
+#### 📦 **Responsibilities**:
+
+1. **Request Routing**
+   Routes incoming requests to the appropriate microservice.
+
+2. **Authentication & Authorization**
+   Validates tokens (JWT, OAuth2) and blocks unauthorized access.
+
+3. **Rate Limiting & Throttling**
+   Prevents abuse (e.g., max 1000 req/min per IP).
+
+4. **Load Balancing**
+   Distributes requests across multiple replicas of a service.
+
+5. **Caching**
+   Frequently requested responses (e.g., public profile data) are cached.
+
+6. **Request/Response Transformation**
+   Converts request formats or aggregates data from multiple services.
+
+7. **Monitoring & Logging**
+   Logs API metrics like latency, error rates, etc., for observability.
+
+---
+
+### 🧰 **05:10 – Real-World Examples**
+
+| Tool                            | Used By / For                                           |
+| ------------------------------- | ------------------------------------------------------- |
+| **Amazon API Gateway**          | Serverless microservices on AWS                         |
+| **Kong**                        | Open-source, plugin-based API gateway                   |
+| **NGINX**                       | Simple routing, caching, SSL termination                |
+| **Apigee (Google)**             | Enterprise-grade API gateway with analytics and billing |
+| **Envoy**                       | Used by Istio/Service Meshes, advanced routing/logging  |
+| **Zuul / Spring Cloud Gateway** | Java/Spring-based microservice ecosystems               |
+
+---
+
+### 🧠 **When to Use an API Gateway (Interview Points)**
+
+* ✅ You have **multiple microservices** exposed to clients.
+* ✅ You want to **centralize security, routing, and rate limits**.
+* ✅ You need **backward compatibility** between frontend and evolving backend APIs.
+* ✅ You want **observability** into how APIs are performing (latency, failures).
+
+---
+
+### ⚠️ **When Not to Overuse**
+
+* ❌ For simple monoliths—adds unnecessary complexity.
+* ❌ For internal-only services that don’t expose public APIs.
+
+---
+
+### ✅ Interview Soundbite
+
+> “An API Gateway simplifies microservice architectures by centralizing authentication, routing, rate-limiting, and observability. It also improves client experience by hiding service fragmentation and enabling consistent APIs. Tools like Envoy or Kong are popular choices for scalable production systems.”
+
+---
+
+Would you like a **diagram or architecture flow** explaining API Gateway in microservices context?
+
+
+
 
 
 
