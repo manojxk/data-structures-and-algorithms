@@ -69,7 +69,7 @@ Below is a structured, step-by-step summary of the Bit.ly–style URL shortener 
 ---
 
 
-[1]: https://www.hellointerview.com/learn/system-design/problem-breakdowns/bitly "Design a URL Shortener Like Bit.ly"
+![image](https://github.com/user-attachments/assets/d8c8ef5b-e556-42a1-8072-c497d6da6007)
 
 ### 6. High-Level Design
 
