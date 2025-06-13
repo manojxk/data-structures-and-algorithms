@@ -22,9 +22,9 @@ Return that probability rounded to three decimal places.
 3. **Recurrence**
    If `h < target - 4`, the dealer **must** draw. Each card value `c` ∈ {1..10} is drawn with probability 0.1. After drawing `c`, the new hand is `h + c`. Therefore:
 
-   $$
-     P(h)\;=\;\sum_{c=1}^{10} \bigl[\,0.1 \times P(h + c)\bigr].
-   $$
+  $$
+  P(h) = \sum_{c=1}^{10} \left[ 0.1 \times P(h + c) \right]
+  $$
 
 4. **Memoization**
    Because many different draw‐sequences lead to the same “current hand total” `h`, we store already computed `P(h)` in a map. That way each `P(h)` is computed exactly once.
